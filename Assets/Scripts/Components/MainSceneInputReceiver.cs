@@ -60,7 +60,7 @@ namespace Components
                 {
                     Debug.Log(hit.collider.name);
                     Debug.DrawRay(_ray.origin, _ray.direction * 20, Color.red, 1f); ;
-                    if (hit.collider.CompareTag("Enemy"))
+                    if (hit.collider.TryGetComponent(out IAttackable attackable))
                     {
                         Debug.Log("attacked to enemy");
                         Vector3 targetPos = hit.transform.position;
