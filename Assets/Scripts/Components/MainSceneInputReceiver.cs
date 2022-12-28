@@ -58,20 +58,17 @@ namespace Components
                 RaycastHit hit;
                 if (Physics.Raycast(_ray, out hit, 100f))
                 {
-                    Debug.Log(hit.collider.name);
-                    Debug.DrawRay(_ray.origin, _ray.direction * 20, Color.red, 1f); ;
                     if (hit.collider.TryGetComponent(out IAttackable attackable))
                     {
-                        Debug.Log("attacked to enemy");
                         Vector3 targetPos = hit.transform.position;
                         MainSceneInputEvents.onAttackedToEnemy?.Invoke(targetPos);
-                        return;
+                    }
+                    else
+                    {
+                        _isMoveable = true;
+                        MainSceneInputEvents.onInputBegin?.Invoke();
                     }
                 }
-
-                _isMoveable = true;
-                MainSceneInputEvents.onInputBegin?.Invoke();
-
             }
             else if (_isMoveable)
             {

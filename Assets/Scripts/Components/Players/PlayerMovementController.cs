@@ -49,6 +49,8 @@ namespace Components.Players
         {
             if (_onPosUpdate.IsInvoking == false)
             {
+                _navMeshAgent.isStopped = false;
+
                 _onPosUpdate.StartCoroutine();
             }
 
@@ -59,6 +61,7 @@ namespace Components.Players
 
         private void OnAttackToEnemy(Vector3 targetPos)
         {
+            _navMeshAgent.isStopped = true;
             transform.LookAt(targetPos);
         }
 
