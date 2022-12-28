@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using Enums;
 
 namespace Components.Players
 {
@@ -10,6 +11,7 @@ namespace Components.Players
     {
         [Inject] private MainSceneInputEvents MainSceneInputEvents { get; set; }
         [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private PoolSignals poolSignals { get; set; }
         private void OnEnable()
         {
             RegisterEvents();
@@ -31,6 +33,8 @@ namespace Components.Players
         private void OnAttackedToEnemy(Vector3 targetPos)
         {
             Debug.Log("Attacked to enemy");
+            GameObject bullet = poolSignals.onGetObject(PoolEnums.Bullet);
+            bullet.SetActive(true);
         }
 
     }

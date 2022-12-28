@@ -9,6 +9,7 @@ namespace Installers.Scenes
         {
             Container.Bind<MainSceneInputEvents>().AsSingle();
             Container.Bind<PlayerEvents>().AsSingle();
+            Container.Bind<PoolSignals>().AsSingle();
         }
 
         public override void Start()
