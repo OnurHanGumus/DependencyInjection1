@@ -51,7 +51,7 @@ namespace Components
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1000);
+                Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1);
 
                 _ray = Camera.main.ScreenPointToRay(mousePos);
 
