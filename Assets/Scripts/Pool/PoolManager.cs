@@ -28,7 +28,7 @@ public class PoolManager : MonoBehaviour
     #endregion
 
     [Inject] private PoolSignals PoolSignals { get; set; }
-    [Inject]
+    [InjectAttribute]
     public void Constructor()
     {
         Init();

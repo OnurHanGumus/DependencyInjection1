@@ -14,7 +14,7 @@ namespace Zenject.Asteroids
         // it's often better practice to use PostInject methods
         // Note that we can't use Constructors here because this is
         // a MonoBehaviour
-        [Inject]
+        [InjectAttribute]
         public void Construct(LevelHelper level, Settings settings)
         {
             _level = level;

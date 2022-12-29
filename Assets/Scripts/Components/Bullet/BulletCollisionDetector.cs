@@ -6,7 +6,7 @@ using Zenject;
 
 public class BulletCollisionDetector : MonoBehaviour
 {
-    [Inject] private PlayerEvents PlayerEvents { get; set; }
+    [InjectAttribute] private PlayerEvents PlayerEvents { get; set; }
     private void Start()
     {
         Debug.Log(PlayerEvents);
