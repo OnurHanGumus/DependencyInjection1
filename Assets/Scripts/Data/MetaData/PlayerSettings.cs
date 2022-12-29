@@ -7,5 +7,6 @@ namespace Data.MetaData
     public class PlayerSettings : ScriptableObject
     {
         [SerializeField] public PlayerCameraController.Settings PlayerCameraControllerSettings;
+        [SerializeField] public PlayerShootManager.Settings PlayerShootManagerSettings;
     }
 }
