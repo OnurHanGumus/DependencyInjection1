@@ -27,11 +27,15 @@ public class PoolManager : MonoBehaviour
     #endregion
     #endregion
 
-    [Inject] private PoolSignals poolSignals { get; set; }
-
-    private void Awake()
+    [Inject] private PoolSignals PoolSignals { get; set; }
+    [Inject]
+    public void Constructor()
     {
         Init();
+    }
+    private void Awake()
+    {
+        //Init();
     }
     private void Init()
     {
@@ -51,16 +55,16 @@ public class PoolManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        poolSignals.onGetPoolManagerObj += OnGetPoolManagerObj;
-        poolSignals.onGetObject += OnGetObject;
+        PoolSignals.onGetPoolManagerObj += OnGetPoolManagerObj;
+        PoolSignals.onGetObject += OnGetObject;
         //CoreGameSignals.Instance.onRestartLevel += OnReset;
 
     }
 
     private void UnsubscribeEvents()
     {
-        poolSignals.onGetPoolManagerObj -= OnGetPoolManagerObj;
-        poolSignals.onGetObject -= OnGetObject;
+        PoolSignals.onGetPoolManagerObj -= OnGetPoolManagerObj;
+        PoolSignals.onGetObject -= OnGetObject;
         //CoreGameSignals.Instance.onRestartLevel -= OnReset;
 
     }

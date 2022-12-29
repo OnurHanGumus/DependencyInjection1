@@ -26,7 +26,7 @@ namespace Components.Players
 
         private void OnPosUpdate()
         {
-            PlayerEvents.OnPlayerMove?.Invoke(_myTransform.position);
+            PlayerEvents.onPlayerMove?.Invoke(_myTransform.position);
 
             if (_navMeshAgent.isStopped)
             {

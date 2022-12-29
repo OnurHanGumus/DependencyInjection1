@@ -12,12 +12,6 @@ namespace Installers.Scenes
             Container.Bind<PoolSignals>().AsSingle();
         }
 
-        public override void Start()
-        {
-            //PlayerData.Load();
-            //SceneData.Load();
-            
-            //MainSceneEvents.GameLoaded?.Invoke();
-        }
+
     }
 }

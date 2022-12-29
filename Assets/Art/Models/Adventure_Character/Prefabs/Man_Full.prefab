@@ -3058,8 +3058,6 @@ GameObject:
   - component: {fileID: 1879732946}
   - component: {fileID: 2961073757659921427}
   - component: {fileID: 1879732950}
-  - component: {fileID: 1879732948}
-  - component: {fileID: 1879732951}
   m_Layer: 0
   m_Name: Man_Full
   m_TagString: Untagged
@@ -3172,32 +3170,6 @@ CapsuleCollider:
   m_Height: 1.9505994
   m_Direction: 1
   m_Center: {x: 0, y: 0.91750395, z: 0}
---- !u!114 &1879732948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465294887362724044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ec72ae02e9490a970f9f5ed478a520, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _myTransform: {fileID: 7841293106933389942}
-  _navMeshAgent: {fileID: 1879732946}
---- !u!114 &1879732951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465294887362724044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9327c81ceac18b94fb6702ee8edbf90b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7481455579830302725
 GameObject:
   m_ObjectHideFlags: 0
@@ -3572,6 +3544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564f57108ad10e74ba4e29ab2b3a914c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCurrentPos: {x: 0, y: 0, z: 0}
 --- !u!1 &8347432783549872669
 GameObject:
   m_ObjectHideFlags: 0

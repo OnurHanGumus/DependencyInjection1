@@ -6,6 +6,7 @@ using Zenject;
 using Enums;
 using System;
 using Data.MetaData;
+using Components.Enemies;
 
 namespace Components.Players
 {
@@ -16,6 +17,7 @@ namespace Components.Players
         [Inject] private PoolSignals PoolSignals { get; set; }
 
         [SerializeField] Vector3 playerCurrentPos;
+        private List<IAttackable> _attackedTargets = new();
 
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
@@ -35,13 +37,15 @@ namespace Components.Players
         private void RegisterEvents()
         {
             MainSceneInputEvents.onAttackedToEnemy += OnAttackedToEnemy;
-            PlayerEvents.OnPlayerMove += OnPlayerMove;
+            PlayerEvents.onPlayerMove += OnPlayerMove;
+            PlayerEvents.onEnemyShooted += OnEnemyShooted;
         }
 
         private void UnRegisterEvents()
         {
             MainSceneInputEvents.onAttackedToEnemy -= OnAttackedToEnemy;
-            PlayerEvents.OnPlayerMove -= OnPlayerMove;
+            PlayerEvents.onPlayerMove -= OnPlayerMove;
+            PlayerEvents.onEnemyShooted -= OnEnemyShooted;
         }
 
         private void OnAttackedToEnemy(Vector3 targetPos)
@@ -56,6 +60,22 @@ namespace Components.Players
         private void OnPlayerMove(Vector3 currentPos)
         {
             playerCurrentPos = currentPos;
+        }
+
+        private void OnEnemyShooted(IAttackable attackable)
+        {
+            if (!_attackedTargets.Contains(attackable))
+            {
+
+                _attackedTargets.Add(attackable);
+                attackable.OnDeath += OnAttackedDeath;
+            }
+        }
+        private void OnAttackedDeath(IAttackable diedAttackable)
+        {
+            diedAttackable.OnDeath -= OnAttackedDeath;
+            _attackedTargets.Remove(diedAttackable);
+            Debug.LogWarning("Target Died");
         }
         [Serializable]
         public class Settings

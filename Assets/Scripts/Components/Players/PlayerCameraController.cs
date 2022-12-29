@@ -32,7 +32,7 @@ namespace Components.Players
 
         private void RegisterEvents()
         {
-            PlayerEvents.OnPlayerMove += OnPlayerMove;
+            PlayerEvents.onPlayerMove += OnPlayerMove;
             //MainSceneEvents.GameLoaded += OnGameLoaded;
         }
 
@@ -47,7 +47,7 @@ namespace Components.Players
 
         private void UnRegisterEvents()
         {
-            PlayerEvents.OnPlayerMove -= OnPlayerMove;
+            PlayerEvents.onPlayerMove -= OnPlayerMove;
         }
 
         [Serializable]

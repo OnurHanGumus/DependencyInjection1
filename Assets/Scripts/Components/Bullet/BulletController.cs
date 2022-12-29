@@ -1,7 +1,9 @@
+using Events.External;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class BulletController : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class BulletController : MonoBehaviour
     #region Public Variables
     #endregion
     #region Serializefield Variables
-    [SerializeField] private int speed = 5; 
+    [SerializeField] private int speed = 5;
     #endregion
     #region Private Variables
     private Rigidbody _rig;
@@ -22,6 +24,7 @@ public class BulletController : MonoBehaviour
     private void OnDisable()
     {
         _rig.velocity = Vector3.zero;
+
     }
     private void Awake()
     {
@@ -32,6 +35,7 @@ public class BulletController : MonoBehaviour
     {
         _rig = GetComponent<Rigidbody>();
     }
+
 
     private void MoveForward()
     {
