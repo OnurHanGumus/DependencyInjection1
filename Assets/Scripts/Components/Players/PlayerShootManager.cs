@@ -17,6 +17,7 @@ namespace Components.Players
         [Inject] private PoolSignals PoolSignals { get; set; }
 
         [SerializeField] Vector3 playerCurrentPos;
+        [SerializeField] private Transform bulletHolder;
         private List<IAttackable> _attackedTargets = new();
 
         [Inject] private PlayerSettings PlayerSettings { get; set; }
@@ -52,7 +53,8 @@ namespace Components.Players
         {
             Debug.Log("Attacked to enemy");
             GameObject bullet = PoolSignals.onGetObject(PoolEnums.Bullet);
-            bullet.transform.position = playerCurrentPos + _mySettings.ShootOffset;
+            bullet.SetActive(false);
+            bullet.transform.position = bulletHolder.transform.position;
             bullet.transform.LookAt(targetPos);
             bullet.transform.eulerAngles = new Vector3(0, bullet.transform.eulerAngles.y, bullet.transform.eulerAngles.z);
             bullet.SetActive(true);

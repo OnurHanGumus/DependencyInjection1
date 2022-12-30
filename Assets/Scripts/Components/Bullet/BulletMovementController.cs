@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class BulletController : MonoBehaviour
+public class BulletMovementController : MonoBehaviour
 {
     #region Self Variables
     #region Public Variables
@@ -40,5 +40,7 @@ public class BulletController : MonoBehaviour
     private void MoveForward()
     {
         _rig.AddRelativeForce(Vector3.forward * speed, ForceMode.Impulse);
+
     }
+
 }

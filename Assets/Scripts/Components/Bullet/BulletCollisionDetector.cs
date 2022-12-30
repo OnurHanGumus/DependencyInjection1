@@ -6,7 +6,7 @@ using Zenject;
 
 public class BulletCollisionDetector : MonoBehaviour
 {
-    [InjectAttribute] private PlayerEvents PlayerEvents { get; set; }
+    [Inject] private PlayerEvents PlayerEvents { get; set; }
     private void Start()
     {
         Debug.Log(PlayerEvents);
@@ -17,10 +17,13 @@ public class BulletCollisionDetector : MonoBehaviour
         {
             PlayerEvents.onEnemyShooted?.Invoke(attackable);
 
-
+            
             attackable.OnWeaponTriggerEnter();
         }
     }
 
+    public class Pool : MemoryPool<Vector2, BulletCollisionDetector>
+    {
 
+    }
 }
