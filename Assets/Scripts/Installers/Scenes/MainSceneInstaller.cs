@@ -8,6 +8,7 @@ namespace Installers.Scenes
     public class MainSceneInstaller : MonoInstaller<MainSceneInstaller>
     {
         [SerializeField] private GameObject bullet;
+        [SerializeField] private GameObject enemy;
         private BulletSettings _bulletSettings;
 
         public override void InstallBindings()
@@ -23,8 +24,10 @@ namespace Installers.Scenes
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerEvents>().AsSingle();
             Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet);
+            Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
 
             Container.Bind<BulletPool>().AsSingle();
+            Container.Bind<EnemyPool>().AsSingle();
         }
 
         private void BindSettings()

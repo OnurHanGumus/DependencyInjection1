@@ -27,7 +27,7 @@ public class BulletCollisionDetector : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(PlayerEvents);
+
     }
     public void OnTriggerEnter(Collider other)
     {

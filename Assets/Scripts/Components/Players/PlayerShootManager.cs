@@ -23,6 +23,12 @@ namespace Components.Players
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
         private Settings _mySettings;
+        private BulletPool _pool;
+        [Inject]
+        public void Constructor(BulletPool pool)
+        {
+            _pool = pool;
+        }
         private void Awake()
         {
             _mySettings = PlayerSettings.PlayerShootManagerSettings;
@@ -52,7 +58,8 @@ namespace Components.Players
         private void OnAttackedToEnemy(Vector3 targetPos)
         {
             Debug.Log("Attacked to enemy");
-            GameObject bullet = PoolSignals.onGetObject(PoolEnums.Bullet);
+            GameObject bullet = _pool.SpawnEnemy(transform.position).gameObject;
+
             bullet.SetActive(false);
             bullet.transform.position = bulletHolder.transform.position;
             bullet.transform.LookAt(targetPos);
