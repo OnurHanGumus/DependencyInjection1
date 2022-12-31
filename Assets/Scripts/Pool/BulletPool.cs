@@ -24,4 +24,8 @@ public class BulletPool
     {
         return _pool.NumTotal;
     }
+    public void Reset()
+    {
+        _pool.Clear();
+    }
 }

@@ -1,18 +1,22 @@
 using Events.External;
 using Zenject;
 using UnityEngine;
+using Data.MetaData;
 
 namespace Installers.Scenes
 {
     public class MainSceneInstaller : MonoInstaller<MainSceneInstaller>
     {
         [SerializeField] private GameObject bullet;
+        private BulletSettings _bulletSettings;
+
         public override void InstallBindings()
         {
-            InitExecutionOrder();
+            BindComponents();
+            BindSettings();
         }
 
-        void InitExecutionOrder()
+        void BindComponents()
         {
 
             Container.Bind<MainSceneInputEvents>().AsSingle();
@@ -21,6 +25,13 @@ namespace Installers.Scenes
             Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet);
 
             Container.Bind<BulletPool>().AsSingle();
+        }
+
+        private void BindSettings()
+        {
+            _bulletSettings = Resources.Load<BulletSettings>("BulletSettings");
+
+            Container.BindInstance(_bulletSettings).AsSingle();
         }
 
 

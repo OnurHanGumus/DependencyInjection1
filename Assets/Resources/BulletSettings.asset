@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e247445374148d4b041c13108b5dbc3, type: 3}
-  m_Name: PlayerSettings
+  m_Script: {fileID: 11500000, guid: 5039678984a00f043b61454622d31c27, type: 3}
+  m_Name: BulletSettings
   m_EditorClassIdentifier: 
-  PlayerCameraControllerSettings:
-    CameraOffset: {x: 0, y: 8, z: 0}
-  PlayerShootManagerSettings:
-    ShootOffset: {x: 1, y: 1.35, z: 0}
-  PlayerMovementSettings:
-    Speed: 5
+  BulletCollisionDetectorSettings:
+    BulletLifeTime: 2

@@ -1,5 +1,7 @@
-﻿using Events.External;
+﻿using Data.MetaData;
+using Events.External;
 using Extensions.Unity;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -15,7 +17,9 @@ namespace Components.Players
         [Inject] private PlayerEvents PlayerEvents { get; set; }
 
         private RoutineHelper _onPosUpdate;
+        [Inject] private PlayerSettings PlayerSettings { get; set; }
 
+        private Settings _mySettings;
         private void OnEnable()
         {
             RegisterEvents();
@@ -23,7 +27,10 @@ namespace Components.Players
             _onPosUpdate = new RoutineHelper
             (this, null, OnPosUpdate, () => true);
         }
-
+        private void Awake()
+        {
+            _mySettings = PlayerSettings.PlayerMovementSettings;
+        }
         private void OnPosUpdate()
         {
             PlayerEvents.onPlayerMove?.Invoke(_myTransform.position);
@@ -57,6 +64,7 @@ namespace Components.Players
             //Debug.LogWarning(MethodBase.GetCurrentMethod().Name);
 
             _navMeshAgent.destination = inputUpdate.TerrainPos;
+            _navMeshAgent.speed = _mySettings.Speed;
         }
 
         private void OnAttackToEnemy(Vector3 targetPos)
@@ -69,6 +77,11 @@ namespace Components.Players
         {
             MainSceneInputEvents.onInputUpdate -= OnInputUpdate;
             MainSceneInputEvents.onAttackedToEnemy -= OnAttackToEnemy;
+        }
+        [Serializable]
+        public class Settings
+        {
+            [SerializeField] public float Speed = 1f;
         }
     }
 }

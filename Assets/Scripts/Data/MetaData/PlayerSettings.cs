@@ -8,5 +8,6 @@ namespace Data.MetaData
     {
         [SerializeField] public PlayerCameraController.Settings PlayerCameraControllerSettings;
         [SerializeField] public PlayerShootManager.Settings PlayerShootManagerSettings;
+        [SerializeField] public PlayerMovementController.Settings PlayerMovementSettings;
     }
 }

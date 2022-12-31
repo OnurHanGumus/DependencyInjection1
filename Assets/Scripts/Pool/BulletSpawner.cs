@@ -43,6 +43,7 @@ public class BulletSpawner : MonoBehaviour
     {
         PoolSignals.onGetPoolManagerObj += OnGetPoolManagerObj;
         PoolSignals.onGetObject += OnGetObject;
+        PoolSignals.onRemove += OnDespawn;
         //CoreGameSignals.Instance.onRestartLevel += OnReset;
 
     }
@@ -51,6 +52,7 @@ public class BulletSpawner : MonoBehaviour
     {
         PoolSignals.onGetPoolManagerObj -= OnGetPoolManagerObj;
         PoolSignals.onGetObject -= OnGetObject;
+        PoolSignals.onRemove -= OnDespawn;
         //CoreGameSignals.Instance.onRestartLevel -= OnReset;
 
     }
@@ -65,12 +67,17 @@ public class BulletSpawner : MonoBehaviour
     public GameObject OnGetObject(PoolEnums type)
     {
         var bullet = _pool.SpawnEnemy(transform.position);
+        
         return bullet.gameObject;
     }
 
     public Transform OnGetPoolManagerObj()
     {
         return transform;
+    }
+    public void OnDespawn(BulletCollisionDetector bulletCollisionDetector)
+    {
+        _pool.RemoveEnemy(bulletCollisionDetector);
     }
 
 
