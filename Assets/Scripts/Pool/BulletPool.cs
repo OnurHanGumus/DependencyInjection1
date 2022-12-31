@@ -9,14 +9,14 @@ public class BulletPool
         _pool = pool;
     }
 
-    public BulletCollisionDetector SpawnEnemy(Vector2 spawnPos)
+    public BulletCollisionDetector SpawnBullet(Vector2 spawnPos)
     {
         return _pool.Spawn(spawnPos);
     }
 
-    public void RemoveEnemy(BulletCollisionDetector enemy)
+    public void RemoveBullet(BulletCollisionDetector bullet)
     {
-        _pool.Despawn(enemy);
+        _pool.Despawn(bullet);
     }
 
     // Pool içerisindeki obje sayýsýný döner.

@@ -11,7 +11,7 @@ namespace Events.External
 
         public Func<Transform> onGetPoolManagerObj = delegate { return null; };
 
-        public UnityAction<BulletCollisionDetector> onRemove = delegate { };
+        public UnityAction<BulletCollisionDetector> onRemoveBullet = delegate { };
         public UnityAction<Enemy> onRemoveEnemy = delegate { };
     }
 }

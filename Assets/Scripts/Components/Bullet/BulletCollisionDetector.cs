@@ -46,7 +46,7 @@ public class BulletCollisionDetector : MonoBehaviour
     }
     private void DespawnSignal()
     {
-        PoolSignals.onRemove(this);
+        PoolSignals.onRemoveBullet(this);
         gameObject.SetActive(false);
     }
 

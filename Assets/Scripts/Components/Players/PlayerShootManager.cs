@@ -46,6 +46,7 @@ namespace Components.Players
             MainSceneInputEvents.onAttackedToEnemy += OnAttackedToEnemy;
             PlayerEvents.onPlayerMove += OnPlayerMove;
             PlayerEvents.onEnemyShooted += OnEnemyShooted;
+            PoolSignals.onRemoveBullet += OnDespawnBullet;
         }
 
         private void UnRegisterEvents()
@@ -53,12 +54,13 @@ namespace Components.Players
             MainSceneInputEvents.onAttackedToEnemy -= OnAttackedToEnemy;
             PlayerEvents.onPlayerMove -= OnPlayerMove;
             PlayerEvents.onEnemyShooted -= OnEnemyShooted;
+            PoolSignals.onRemoveBullet -= OnDespawnBullet;
         }
 
         private void OnAttackedToEnemy(Vector3 targetPos)
         {
             Debug.Log("Attacked to enemy");
-            GameObject bullet = _pool.SpawnEnemy(transform.position).gameObject;
+            GameObject bullet = _pool.SpawnBullet(transform.position).gameObject;
 
             bullet.SetActive(false);
             bullet.transform.position = bulletHolder.transform.position;
@@ -85,6 +87,11 @@ namespace Components.Players
             diedAttackable.OnDeath -= OnAttackedDeath;
             _attackedTargets.Remove(diedAttackable);
             Debug.LogWarning("Target Died");
+        }
+
+        private void OnDespawnBullet(BulletCollisionDetector bulletCollisionDetector)
+        {
+            _pool.RemoveBullet(bulletCollisionDetector);
         }
         [Serializable]
         public class Settings
