@@ -9,6 +9,10 @@ namespace Components.Enemies {
         private int _enemyHits = 2;
         [Inject] private PoolSignals PoolSignals;
         [SerializeField] private Enemy enemy;
+        private void OnDisable()
+        {
+            _enemyHits = 2;
+        }
         void IAttackable.OnWeaponTriggerEnter()
         {
             _enemyHits--;
@@ -17,6 +21,7 @@ namespace Components.Enemies {
             {
                 OnDeath?.Invoke(this);
                 PoolSignals.onRemoveEnemy?.Invoke(enemy);
+                enemy.gameObject.SetActive(false);
             }
         }
 

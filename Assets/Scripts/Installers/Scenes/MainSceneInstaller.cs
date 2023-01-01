@@ -23,7 +23,7 @@ namespace Installers.Scenes
             Container.Bind<MainSceneInputEvents>().AsSingle();
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerEvents>().AsSingle();
-            Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet);
+            Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets"); ;
             Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
 
             Container.Bind<BulletPool>().AsSingle();

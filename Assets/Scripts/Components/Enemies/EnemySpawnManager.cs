@@ -32,9 +32,15 @@ public class EnemySpawnManager : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        yield return new WaitForSeconds(5f);
-        GameObject enemy = OnGetObject(PoolEnums.Bullet);
-        enemy.transform.position = transform.position;
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            GameObject enemy = OnGetObject();
+            enemy.SetActive(false);
+            enemy.transform.position = transform.position;
+            enemy.SetActive(true);
+        }
+
     }
 
     #region Event Subscriptions
@@ -65,7 +71,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     #endregion
 
-    public GameObject OnGetObject(PoolEnums type)
+    public GameObject OnGetObject()
     {
         var enemy = _pool.SpawnEnemy(transform.position);
 
