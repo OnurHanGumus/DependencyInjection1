@@ -73,7 +73,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public GameObject OnGetObject()
     {
-        var enemy = _pool.SpawnEnemy(transform.position);
+        var enemy = _pool.Spawn(transform.position);
 
         return enemy.gameObject;
     }
@@ -84,7 +84,7 @@ public class EnemySpawnManager : MonoBehaviour
     }
     public void OnDespawn(Enemy enemy)
     {
-        _pool.RemoveEnemy(enemy);
+        _pool.Remove(enemy);
     }
 
 
