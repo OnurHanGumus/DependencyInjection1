@@ -24,7 +24,7 @@ namespace Components.Players
 
         private Settings _mySettings;
         [Inject]
-        private PoolManager poolManager;
+        private PoolHolder poolManager;
         private void Awake()
         {
             _mySettings = PlayerSettings.PlayerShootManagerSettings;
@@ -54,7 +54,7 @@ namespace Components.Players
         private void OnAttackedToEnemy(Vector3 targetPos)
         {
             Debug.Log("Attacked to enemy");
-            GameObject bullet = poolManager.Spawn(PoolEnums.Bullet,transform.position); /*_pool.SpawnBullet(transform.position).gameObject;*/
+            GameObject bullet = PoolSignals.onGetObject(PoolEnums.Bullet,transform.position); /*_pool.SpawnBullet(transform.position).gameObject;*/
 
             bullet.SetActive(false);
             bullet.transform.position = bulletHolder.transform.position;
@@ -83,11 +83,6 @@ namespace Components.Players
             Debug.LogWarning("Target Died");
         }
 
-        private void OnDespawnBullet(BulletCollisionDetector bulletCollisionDetector)
-        {
-            //_pool.RemoveBullet(bulletCollisionDetector);
-            poolManager.Remove(PoolEnums.Bullet, bulletCollisionDetector);
-        }
         [Serializable]
         public class Settings
         {

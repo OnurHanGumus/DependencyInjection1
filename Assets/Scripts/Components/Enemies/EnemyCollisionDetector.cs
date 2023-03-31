@@ -2,7 +2,7 @@ using Events.External;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
-
+using Enums;
 namespace Components.Enemies {
     public class EnemyCollisionDetector : MonoBehaviour, IAttackable
     {
@@ -20,7 +20,7 @@ namespace Components.Enemies {
             if (_enemyHits == 0)
             {
                 OnDeath?.Invoke(this);
-                PoolSignals.onRemove?.Invoke(Enums.PoolEnums.Enemy, enemy);
+                PoolSignals.onRemove?.Invoke(PoolEnums.Enemy, enemy);
                 enemy.gameObject.SetActive(false);
             }
         }

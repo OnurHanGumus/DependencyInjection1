@@ -18,7 +18,7 @@ public class EnemySpawnManager : MonoBehaviour
     #endregion
 
     [Inject] private PoolSignals PoolSignals { get; set; }
-    [Inject] private PoolManager PoolManager { get; set; }
+    [Inject] private PoolHolder PoolManager { get; set; }
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class EnemySpawnManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(5f);
-            GameObject enemy = OnGetObject();
+            GameObject enemy = PoolSignals.onGetObject(PoolEnums.Enemy, transform.position);
             enemy.SetActive(false);
             enemy.transform.position = transform.position;
             enemy.SetActive(true);
@@ -68,7 +68,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public GameObject OnGetObject()
     {
-        var enemy = PoolManager.Spawn(PoolEnums.Enemy, transform.position);
+        var enemy = PoolSignals.onGetObject(PoolEnums.Enemy, transform.position);
 
         return enemy.gameObject;
     }
@@ -80,7 +80,7 @@ public class EnemySpawnManager : MonoBehaviour
     public void OnDespawn(Enemy enemy)
     {
         //_pool.Remove(enemy);
-        PoolManager.Remove(PoolEnums.Enemy, enemy);
+        PoolSignals.onRemove(PoolEnums.Enemy, enemy);
     }
 
 

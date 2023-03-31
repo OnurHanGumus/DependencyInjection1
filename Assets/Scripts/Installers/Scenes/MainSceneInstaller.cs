@@ -9,6 +9,7 @@ namespace Installers.Scenes
     {
         [SerializeField] private GameObject bullet;
         [SerializeField] private GameObject enemy;
+        [SerializeField] private GameObject explosionParticle;
         private BulletSettings _bulletSettings;
 
         public override void InstallBindings()
@@ -23,18 +24,17 @@ namespace Installers.Scenes
             Container.Bind<MainSceneInputEvents>().AsSingle();
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerEvents>().AsSingle();
+
             Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
             Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
+            Container.BindMemoryPool<Explosion, Explosion.Pool>().FromComponentInNewPrefab(explosionParticle).UnderTransformGroup("Particles");
 
-            //Container.Bind<BulletPool>().AsSingle();
-            //Container.Bind<EnemyPool>().AsSingle();
-            Container.Bind<PoolManager>().AsSingle();
+            Container.Bind<PoolHolder>().AsSingle();
         }
 
         private void BindSettings()
         {
             _bulletSettings = Resources.Load<BulletSettings>("BulletSettings");
-
             Container.BindInstance(_bulletSettings).AsSingle();
         }
 
