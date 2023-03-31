@@ -28,6 +28,7 @@ namespace Installers.Scenes
 
             Container.Bind<BulletPool>().AsSingle();
             Container.Bind<EnemyPool>().AsSingle();
+            Container.Bind<PoolManager>().AsSingle();
         }
 
         private void BindSettings()

@@ -3,31 +3,31 @@ using UnityEngine;
 
 public class EnemyPool
 {
-    public Enemy.Pool Pool;
+    //public Enemy.Pool Pool;
 
-    public EnemyPool(Enemy.Pool pool, BulletCollisionDetector.Pool bulletPool)
-    {
-        Pool = pool;
+    //public EnemyPool(Enemy.Pool pool)
+    //{
+    //    Pool = pool;
 
-    }
+    //}
 
-    public Enemy Spawn(Vector2 spawnPos)
-    {
-        return Pool.Spawn(spawnPos);
-    }
+    //public Enemy Spawn(Vector2 spawnPos)
+    //{
+    //    return Pool.Spawn(spawnPos);
+    //}
 
-    public void Remove(Enemy enemy)
-    {
-        Pool.Despawn(enemy);
-    }
+    //public void Remove(Enemy enemy)
+    //{
+    //    Pool.Despawn(enemy);
+    //}
 
-    // Pool içerisindeki obje sayýsýný döner.
-    public int GetNum()
-    {
-        return Pool.NumTotal;
-    }
-    public void Reset()
-    {
-        Pool.Clear();
-    }
+    //// Pool içerisindeki obje sayýsýný döner.
+    //public int GetNum()
+    //{
+    //    return Pool.NumTotal;
+    //}
+    //public void Reset()
+    //{
+    //    Pool.Clear();
+    //}
 }

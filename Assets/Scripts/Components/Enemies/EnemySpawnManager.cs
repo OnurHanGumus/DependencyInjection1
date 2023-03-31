@@ -19,6 +19,7 @@ public class EnemySpawnManager : MonoBehaviour
     #endregion
 
     [Inject] private PoolSignals PoolSignals { get; set; }
+    [Inject] private PoolManager PoolManager { get; set; }
 
     [Inject]
     public void Constructor(EnemyPool pool)
@@ -73,7 +74,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public GameObject OnGetObject()
     {
-        var enemy = _pool.Spawn(transform.position);
+        var enemy = PoolManager.Spawn(transform.position, PoolEnums.Enemy);
 
         return enemy.gameObject;
     }
@@ -84,7 +85,8 @@ public class EnemySpawnManager : MonoBehaviour
     }
     public void OnDespawn(Enemy enemy)
     {
-        _pool.Remove(enemy);
+        //_pool.Remove(enemy);
+        PoolManager.Remove(enemy, PoolEnums.Enemy);
     }
 
 

@@ -7,7 +7,7 @@ using Events.External;
 using UnityEngine;
 using Zenject;
 
-public class BulletCollisionDetector : MonoBehaviour
+public class BulletCollisionDetector : MonoBehaviour, IPoolType
 {
     [Inject] private PlayerEvents PlayerEvents { get; set; }
     [Inject] private PoolSignals PoolSignals { get; set; }
@@ -60,8 +60,15 @@ public class BulletCollisionDetector : MonoBehaviour
         [SerializeField] public float BulletLifeTime = 1f;
     }
 
-    public class Pool : MemoryPool<Vector2, BulletCollisionDetector>
+    public class Pool : MemoryPool<Vector2, BulletCollisionDetector>, IPool
     {
-        
+        public void Despawn(IPoolType enemy)
+        {
+            base.Despawn((BulletCollisionDetector)enemy);
+        }
+        public GameObject Spawn(Vector2 pos)
+        {
+            return base.Spawn(pos).gameObject;
+        }
     }
 }

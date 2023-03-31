@@ -25,6 +25,8 @@ namespace Components.Players
         private Settings _mySettings;
         private BulletPool _pool;
         [Inject]
+        private PoolManager poolManager;
+        [Inject]
         public void Constructor(BulletPool pool)
         {
             _pool = pool;
@@ -60,7 +62,7 @@ namespace Components.Players
         private void OnAttackedToEnemy(Vector3 targetPos)
         {
             Debug.Log("Attacked to enemy");
-            GameObject bullet = _pool.SpawnBullet(transform.position).gameObject;
+            GameObject bullet = poolManager.Spawn(transform.position, PoolEnums.Bullet); /*_pool.SpawnBullet(transform.position).gameObject;*/
 
             bullet.SetActive(false);
             bullet.transform.position = bulletHolder.transform.position;
@@ -91,7 +93,8 @@ namespace Components.Players
 
         private void OnDespawnBullet(BulletCollisionDetector bulletCollisionDetector)
         {
-            _pool.RemoveBullet(bulletCollisionDetector);
+            //_pool.RemoveBullet(bulletCollisionDetector);
+            poolManager.Remove(bulletCollisionDetector, PoolEnums.Bullet);
         }
         [Serializable]
         public class Settings
