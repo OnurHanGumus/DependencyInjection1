@@ -6,12 +6,12 @@ using Data.MetaData;
 using Events.External;
 using UnityEngine;
 using Zenject;
+using Enums;
 
 public class BulletCollisionDetector : MonoBehaviour, IPoolType
 {
     [Inject] private PlayerEvents PlayerEvents { get; set; }
     [Inject] private PoolSignals PoolSignals { get; set; }
-    //[Inject] private BulletSettings BulletSettings { get; set; }
 
     private Settings _mySettings;
 
@@ -20,15 +20,12 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
     {
         _mySettings = bulletSettings.BulletCollisionDetectorSettings;
     }
+
     private void OnEnable()
     {
         StartCoroutine(BulletLifeTime());
     }
 
-    private void Start()
-    {
-
-    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out IAttackable attackable))
@@ -36,24 +33,21 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
             PlayerEvents.onEnemyShooted?.Invoke(attackable);
             DespawnSignal();
             attackable.OnWeaponTriggerEnter();
-            //gameObject.SetActive(false);
         }
     }
+
     private IEnumerator BulletLifeTime()
     {
         yield return new WaitForSeconds(_mySettings.BulletLifeTime);
         DespawnSignal();
     }
+
     private void DespawnSignal()
     {
-        PoolSignals.onRemoveBullet(this);
+        PoolSignals.onRemove(PoolEnums.Bullet, this);
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
-    {
-        
-    }
     [Serializable]
     public class Settings
     {
@@ -64,9 +58,9 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
     {
         public void Despawn(IPoolType enemy)
         {
-            base.Despawn((BulletCollisionDetector)enemy);
+            base.Despawn((BulletCollisionDetector) enemy);
         }
-        public GameObject Spawn(Vector2 pos)
+        public new GameObject Spawn(Vector2 pos)
         {
             return base.Spawn(pos).gameObject;
         }

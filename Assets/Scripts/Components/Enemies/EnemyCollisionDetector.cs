@@ -20,7 +20,7 @@ namespace Components.Enemies {
             if (_enemyHits == 0)
             {
                 OnDeath?.Invoke(this);
-                PoolSignals.onRemoveEnemy?.Invoke(enemy);
+                PoolSignals.onRemove?.Invoke(Enums.PoolEnums.Enemy, enemy);
                 enemy.gameObject.SetActive(false);
             }
         }

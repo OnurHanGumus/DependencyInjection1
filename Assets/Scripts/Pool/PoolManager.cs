@@ -1,5 +1,6 @@
 using Components.Enemies;
 using Enums;
+using Events.External;
 using Installers.Prefabs;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,9 @@ public class PoolManager
     public Enemy.Pool EnemyPool;
     public BulletCollisionDetector.Pool BulletPool;
     [SerializeField] private Dictionary<PoolEnums, IPool> poolDictionary;
-    public PoolManager(Enemy.Pool enemyPool, BulletCollisionDetector.Pool bulletPool)
+    [Inject] private PoolSignals poolSignals { get; set; }
+
+public PoolManager(Enemy.Pool enemyPool, BulletCollisionDetector.Pool bulletPool)
     {
         poolDictionary = new Dictionary<PoolEnums, IPool>();
         EnemyPool = enemyPool;
@@ -25,12 +28,12 @@ public class PoolManager
     }
 
 
-    public GameObject Spawn(Vector2 spawnPos, PoolEnums poolEnum)
+    public GameObject Spawn(PoolEnums poolEnum, Vector2 spawnPos)
     {
         return poolDictionary[poolEnum].Spawn(spawnPos);
     }
 
-    public void Remove(IPoolType enemy, PoolEnums poolEnum)
+    public void Remove(PoolEnums poolEnum, IPoolType enemy)
     {
         poolDictionary[poolEnum].Despawn(enemy);
     }
@@ -44,4 +47,31 @@ public class PoolManager
     {
         EnemyPool.Clear();
     }
+
+    #region Event Subscriptions
+
+    private void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        poolSignals.onGetObject += Spawn;
+        poolSignals.onRemove += Remove;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        poolSignals.onGetObject += Spawn;
+        poolSignals.onRemove += Remove;
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+    }
+
+    #endregion
+
 }

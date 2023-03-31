@@ -14,18 +14,12 @@ public class EnemySpawnManager : MonoBehaviour
 
     #endregion
     #region Private Variables
-    private EnemyPool _pool;
     #endregion
     #endregion
 
     [Inject] private PoolSignals PoolSignals { get; set; }
     [Inject] private PoolManager PoolManager { get; set; }
 
-    [Inject]
-    public void Constructor(EnemyPool pool)
-    {
-        _pool = pool;
-    }
     private void Awake()
     {
         StartCoroutine(Spawn());
@@ -53,14 +47,14 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        PoolSignals.onRemoveEnemy += OnDespawn;
+        //PoolSignals.onRemove += OnDespawn;
         //CoreGameSignals.Instance.onRestartLevel += OnReset;
 
     }
 
     private void UnsubscribeEvents()
     {
-        PoolSignals.onRemoveEnemy -= OnDespawn;
+        //PoolSignals.onRemove -= OnDespawn;
         //CoreGameSignals.Instance.onRestartLevel -= OnReset;
 
     }
@@ -74,7 +68,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public GameObject OnGetObject()
     {
-        var enemy = PoolManager.Spawn(transform.position, PoolEnums.Enemy);
+        var enemy = PoolManager.Spawn(PoolEnums.Enemy, transform.position);
 
         return enemy.gameObject;
     }
@@ -86,7 +80,7 @@ public class EnemySpawnManager : MonoBehaviour
     public void OnDespawn(Enemy enemy)
     {
         //_pool.Remove(enemy);
-        PoolManager.Remove(enemy, PoolEnums.Enemy);
+        PoolManager.Remove(PoolEnums.Enemy, enemy);
     }
 
 

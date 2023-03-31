@@ -23,14 +23,8 @@ namespace Components.Players
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
         private Settings _mySettings;
-        private BulletPool _pool;
         [Inject]
         private PoolManager poolManager;
-        [Inject]
-        public void Constructor(BulletPool pool)
-        {
-            _pool = pool;
-        }
         private void Awake()
         {
             _mySettings = PlayerSettings.PlayerShootManagerSettings;
@@ -48,7 +42,6 @@ namespace Components.Players
             MainSceneInputEvents.onAttackedToEnemy += OnAttackedToEnemy;
             PlayerEvents.onPlayerMove += OnPlayerMove;
             PlayerEvents.onEnemyShooted += OnEnemyShooted;
-            PoolSignals.onRemoveBullet += OnDespawnBullet;
         }
 
         private void UnRegisterEvents()
@@ -56,13 +49,12 @@ namespace Components.Players
             MainSceneInputEvents.onAttackedToEnemy -= OnAttackedToEnemy;
             PlayerEvents.onPlayerMove -= OnPlayerMove;
             PlayerEvents.onEnemyShooted -= OnEnemyShooted;
-            PoolSignals.onRemoveBullet -= OnDespawnBullet;
         }
 
         private void OnAttackedToEnemy(Vector3 targetPos)
         {
             Debug.Log("Attacked to enemy");
-            GameObject bullet = poolManager.Spawn(transform.position, PoolEnums.Bullet); /*_pool.SpawnBullet(transform.position).gameObject;*/
+            GameObject bullet = poolManager.Spawn(PoolEnums.Bullet,transform.position); /*_pool.SpawnBullet(transform.position).gameObject;*/
 
             bullet.SetActive(false);
             bullet.transform.position = bulletHolder.transform.position;
@@ -94,7 +86,7 @@ namespace Components.Players
         private void OnDespawnBullet(BulletCollisionDetector bulletCollisionDetector)
         {
             //_pool.RemoveBullet(bulletCollisionDetector);
-            poolManager.Remove(bulletCollisionDetector, PoolEnums.Bullet);
+            poolManager.Remove(PoolEnums.Bullet, bulletCollisionDetector);
         }
         [Serializable]
         public class Settings

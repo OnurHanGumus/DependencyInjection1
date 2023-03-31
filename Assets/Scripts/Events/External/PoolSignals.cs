@@ -7,11 +7,10 @@ namespace Events.External
 {
     public class PoolSignals
     {
-        public Func<PoolEnums, GameObject> onGetObject = delegate { return null; };
+        public Func<PoolEnums,Vector2, GameObject> onGetObject = delegate { return null; };
 
         public Func<Transform> onGetPoolManagerObj = delegate { return null; };
 
-        public UnityAction<BulletCollisionDetector> onRemoveBullet = delegate { };
-        public UnityAction<Enemy> onRemoveEnemy = delegate { };
+        public UnityAction<PoolEnums, IPoolType> onRemove = delegate { };
     }
 }
