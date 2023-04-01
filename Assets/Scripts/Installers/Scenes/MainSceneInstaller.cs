@@ -21,7 +21,7 @@ namespace Installers.Scenes
         void BindComponents()
         {
 
-            Container.Bind<MainSceneInputEvents>().AsSingle();
+            Container.Bind<InputEvents>().AsSingle();
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerEvents>().AsSingle();
 

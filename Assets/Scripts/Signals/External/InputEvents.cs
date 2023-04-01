@@ -3,14 +3,12 @@ using UnityEngine.Events;
 
 namespace Events.External
 {
-    public class MainSceneInputEvents
+    public class InputEvents
     {
         public UnityAction onInputBegin;
         public UnityAction<InputUpdate> onInputUpdate;
         public UnityAction onInputEnd;
-
-        public UnityAction<Vector3> onAttackedToEnemy;
-
+        
         public readonly struct InputUpdate
         {
             public readonly Vector3 TerrainPos;

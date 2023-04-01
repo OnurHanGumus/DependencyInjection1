@@ -10,5 +10,7 @@ namespace Events.External
     {
         public UnityAction<Vector3> onPlayerMove;
         public UnityAction<IAttackable> onEnemyShooted;
+        public UnityAction<Vector3> onAttackedToEnemy;
+
     }
 }

@@ -12,7 +12,7 @@ namespace Components.Players
 {
     public class PlayerShootManager : MonoBehaviour
     {
-        [Inject] private MainSceneInputEvents MainSceneInputEvents { get; set; }
+        [Inject] private InputEvents MainSceneInputEvents { get; set; }
         [Inject] private PlayerEvents PlayerEvents { get; set; }
         [Inject] private PoolSignals PoolSignals { get; set; }
 
@@ -23,8 +23,7 @@ namespace Components.Players
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
         private Settings _mySettings;
-        [Inject]
-        private PoolHolder poolManager;
+
         private void Awake()
         {
             _mySettings = PlayerSettings.PlayerShootManagerSettings;
@@ -39,14 +38,14 @@ namespace Components.Players
         }
         private void RegisterEvents()
         {
-            MainSceneInputEvents.onAttackedToEnemy += OnAttackedToEnemy;
+            PlayerEvents.onAttackedToEnemy += OnAttackedToEnemy;
             PlayerEvents.onPlayerMove += OnPlayerMove;
             PlayerEvents.onEnemyShooted += OnEnemyShooted;
         }
 
         private void UnRegisterEvents()
         {
-            MainSceneInputEvents.onAttackedToEnemy -= OnAttackedToEnemy;
+            PlayerEvents.onAttackedToEnemy -= OnAttackedToEnemy;
             PlayerEvents.onPlayerMove -= OnPlayerMove;
             PlayerEvents.onEnemyShooted -= OnEnemyShooted;
         }
@@ -71,14 +70,13 @@ namespace Components.Players
         {
             if (!_attackedTargets.Contains(attackable))
             {
-
                 _attackedTargets.Add(attackable);
-                attackable.OnDeath += OnAttackedDeath;
+                attackable.GetInternalEvents().OnDeath += OnAttackedDeath;
             }
         }
         private void OnAttackedDeath(IAttackable diedAttackable)
         {
-            diedAttackable.OnDeath -= OnAttackedDeath;
+            diedAttackable.GetInternalEvents().OnDeath -= OnAttackedDeath;
             _attackedTargets.Remove(diedAttackable);
             Debug.LogWarning("Target Died");
         }

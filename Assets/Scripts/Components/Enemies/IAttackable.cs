@@ -6,6 +6,6 @@ namespace Components.Enemies
     public interface IAttackable
     {
         void OnWeaponTriggerEnter();
-        UnityAction<IAttackable> OnDeath { get; set; }
+        EnemyInternalEvents GetInternalEvents();
     }
 }

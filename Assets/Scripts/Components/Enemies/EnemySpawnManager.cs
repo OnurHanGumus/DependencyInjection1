@@ -18,7 +18,6 @@ public class EnemySpawnManager : MonoBehaviour
     #endregion
 
     [Inject] private PoolSignals PoolSignals { get; set; }
-    [Inject] private PoolHolder PoolManager { get; set; }
 
     private void Awake()
     {
@@ -47,16 +46,10 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        //PoolSignals.onRemove += OnDespawn;
-        //CoreGameSignals.Instance.onRestartLevel += OnReset;
-
     }
 
     private void UnsubscribeEvents()
     {
-        //PoolSignals.onRemove -= OnDespawn;
-        //CoreGameSignals.Instance.onRestartLevel -= OnReset;
-
     }
 
     private void OnDisable()
@@ -65,32 +58,4 @@ public class EnemySpawnManager : MonoBehaviour
     }
 
     #endregion
-
-    public GameObject OnGetObject()
-    {
-        var enemy = PoolSignals.onGetObject(PoolEnums.Enemy, transform.position);
-
-        return enemy.gameObject;
-    }
-
-    public Transform OnGetPoolManagerObj()
-    {
-        return transform;
-    }
-    public void OnDespawn(Enemy enemy)
-    {
-        //_pool.Remove(enemy);
-        PoolSignals.onRemove(PoolEnums.Enemy, enemy);
-    }
-
-
-    private void OnReset()
-    {
-
-    }
-
-    private void ResetPool(PoolEnums type)
-    {
-
-    }
 }

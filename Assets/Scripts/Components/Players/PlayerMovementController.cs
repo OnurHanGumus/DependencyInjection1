@@ -13,7 +13,7 @@ namespace Components.Players
         [SerializeField] private Transform _myTransform;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private MainSceneInputEvents MainSceneInputEvents { get; set; }
+        [Inject] private InputEvents MainSceneInputEvents { get; set; }
         [Inject] private PlayerEvents PlayerEvents { get; set; }
 
         private RoutineHelper _onPosUpdate;
@@ -49,10 +49,10 @@ namespace Components.Players
         private void RegisterEvents()
         {
             MainSceneInputEvents.onInputUpdate += OnInputUpdate;
-            MainSceneInputEvents.onAttackedToEnemy += OnAttackToEnemy;
+            PlayerEvents.onAttackedToEnemy += OnAttackToEnemy;
         }
 
-        private void OnInputUpdate(MainSceneInputEvents.InputUpdate inputUpdate)
+        private void OnInputUpdate(InputEvents.InputUpdate inputUpdate)
         {
             if (_onPosUpdate.IsInvoking == false)
             {
@@ -76,7 +76,7 @@ namespace Components.Players
         private void UnRegisterEvents()
         {
             MainSceneInputEvents.onInputUpdate -= OnInputUpdate;
-            MainSceneInputEvents.onAttackedToEnemy -= OnAttackToEnemy;
+            PlayerEvents.onAttackedToEnemy -= OnAttackToEnemy;
         }
         [Serializable]
         public class Settings

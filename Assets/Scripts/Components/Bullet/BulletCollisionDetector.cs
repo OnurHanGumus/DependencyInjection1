@@ -36,8 +36,6 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
             GameObject particle = PoolSignals.onGetObject(PoolEnums.Particle, transform.position);
             particle.SetActive(false);
             particle.transform.position = transform.position;
-            //particle.transform.LookAt(targetPos);
-            //particle.transform.eulerAngles = new Vector3(0, bullet.transform.eulerAngles.y, bullet.transform.eulerAngles.z);
             particle.SetActive(true);
         }
     }

@@ -17,21 +17,13 @@ namespace Components
         private Camera _mainCam;
 
         [UsedImplicitly]
-        [Inject] private MainSceneInputEvents MainSceneInputEvents { get; set; }
+        [Inject] private InputEvents MainSceneInputEvents { get; set; }
+        [Inject] private PlayerEvents PlayerEvents { get; set; }
         private Ray _ray;
 
         private void Awake()
         {
-            //TODO: Temporary
             _mainCam = Camera.main;
-
-            //_inputRoutine = new RoutineHelper
-            //(
-            //    this,
-            //    null,
-            //    InputUpdate,
-            //    () => true
-            //);
         }
         private void Update()
         {
@@ -61,7 +53,7 @@ namespace Components
                     if (hit.collider.TryGetComponent(out IAttackable attackable))
                     {
                         Vector3 targetPos = hit.transform.position;
-                        MainSceneInputEvents.onAttackedToEnemy?.Invoke(targetPos);
+                        PlayerEvents.onAttackedToEnemy?.Invoke(targetPos);
                     }
                     else
                     {
@@ -74,10 +66,9 @@ namespace Components
             {
                 if (TryGetTerrainInputPos(Input.mousePosition, out Vector3 terrainInputPos))
                 {
-                    MainSceneInputEvents.InputUpdate inputUpdate = new(terrainInputPos);
+                    InputEvents.InputUpdate inputUpdate = new(terrainInputPos);
 
-                    MainSceneInputEvents.
-                        onInputUpdate?.Invoke(inputUpdate);
+                    MainSceneInputEvents.onInputUpdate?.Invoke(inputUpdate);
                 }
             }
 

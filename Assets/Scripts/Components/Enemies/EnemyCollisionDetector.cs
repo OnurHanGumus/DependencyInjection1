@@ -1,4 +1,5 @@
 using Events.External;
+using Events.InternalEvents;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -7,8 +8,15 @@ namespace Components.Enemies {
     public class EnemyCollisionDetector : MonoBehaviour, IAttackable
     {
         private int _enemyHits = 2;
-        [Inject] private PoolSignals PoolSignals;
+        [Inject] private PoolSignals PoolSignals { get; set;}
+        [Inject] private EnemyInternalEvents EnemyInternalEvents { get; set; }
         [SerializeField] private Enemy enemy;
+
+        public EnemyInternalEvents GetInternalEvents()
+        {
+            return EnemyInternalEvents;
+        }
+
         private void OnDisable()
         {
             _enemyHits = 2;
@@ -19,12 +27,10 @@ namespace Components.Enemies {
 
             if (_enemyHits == 0)
             {
-                OnDeath?.Invoke(this);
+                EnemyInternalEvents.OnDeath?.Invoke(this);
                 PoolSignals.onRemove?.Invoke(PoolEnums.Enemy, enemy);
                 enemy.gameObject.SetActive(false);
             }
         }
-
-        public UnityAction<IAttackable> OnDeath { get; set; }
     }
 }

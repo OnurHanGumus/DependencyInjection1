@@ -13,7 +13,7 @@ namespace Components.Players
         [SerializeField] private Transform _myTransform;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private MainSceneInputEvents MainSceneInputEvents { get; set; }
+        [Inject] private InputEvents MainSceneInputEvents { get; set; }
         [Inject] private PlayerEvents PlayerEvents { get; set; }
 
         private RoutineHelper _onPosUpdate;
