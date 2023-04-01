@@ -13,7 +13,6 @@ namespace Components.Players
         [SerializeField] private Transform _myTransform;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private InputSignals InputSignals { get; set; }
         [Inject] private PlayerSignals PlayerSignals { get; set; }
 
         private RoutineHelper _onPosUpdate;

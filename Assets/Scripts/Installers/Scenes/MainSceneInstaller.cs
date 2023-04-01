@@ -25,7 +25,7 @@ namespace Installers.Scenes
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerSignals>().AsSingle();
 
-            Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
+            Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().WithInitialSize(5).FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
             Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
             Container.BindMemoryPool<Explosion, Explosion.Pool>().FromComponentInNewPrefab(explosionParticle).UnderTransformGroup("Particles");
 
