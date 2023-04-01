@@ -10,7 +10,7 @@ using Enums;
 
 public class BulletCollisionDetector : MonoBehaviour, IPoolType
 {
-    [Inject] private PlayerEvents PlayerEvents { get; set; }
+    [Inject] private PlayerSignals PlayerSignals { get; set; }
     [Inject] private PoolSignals PoolSignals { get; set; }
 
     private Settings _mySettings;
@@ -30,7 +30,7 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
     {
         if (other.TryGetComponent(out IAttackable attackable))
         {
-            PlayerEvents.onEnemyShooted?.Invoke(attackable);
+            PlayerSignals.onEnemyShooted?.Invoke(attackable);
             DespawnSignal();
             attackable.OnWeaponTriggerEnter();
             GameObject particle = PoolSignals.onGetObject(PoolEnums.Particle, transform.position);

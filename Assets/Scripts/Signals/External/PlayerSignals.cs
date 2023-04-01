@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Events.External
 {
     [UsedImplicitly]
-    public class PlayerEvents
+    public class PlayerSignals
     {
         public UnityAction<Vector3> onPlayerMove;
         public UnityAction<IAttackable> onEnemyShooted;

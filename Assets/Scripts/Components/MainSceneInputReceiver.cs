@@ -17,8 +17,8 @@ namespace Components
         private Camera _mainCam;
 
         [UsedImplicitly]
-        [Inject] private InputEvents MainSceneInputEvents { get; set; }
-        [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private InputSignals InputSignals { get; set; }
+        [Inject] private PlayerSignals PlayerSignals { get; set; }
         private Ray _ray;
 
         private void Awake()
@@ -53,12 +53,12 @@ namespace Components
                     if (hit.collider.TryGetComponent(out IAttackable attackable))
                     {
                         Vector3 targetPos = hit.transform.position;
-                        PlayerEvents.onAttackedToEnemy?.Invoke(targetPos);
+                        PlayerSignals.onAttackedToEnemy?.Invoke(targetPos);
                     }
                     else
                     {
                         _isMoveable = true;
-                        MainSceneInputEvents.onInputBegin?.Invoke();
+                        InputSignals.onInputBegin?.Invoke();
                     }
                 }
             }
@@ -66,16 +66,16 @@ namespace Components
             {
                 if (TryGetTerrainInputPos(Input.mousePosition, out Vector3 terrainInputPos))
                 {
-                    InputEvents.InputUpdate inputUpdate = new(terrainInputPos);
+                    InputSignals.InputUpdate inputUpdate = new(terrainInputPos);
 
-                    MainSceneInputEvents.onInputUpdate?.Invoke(inputUpdate);
+                    InputSignals.onInputUpdate?.Invoke(inputUpdate);
                 }
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 _isMoveable = false;
-                MainSceneInputEvents.onInputEnd?.Invoke();
+                InputSignals.onInputEnd?.Invoke();
 
             }
         }

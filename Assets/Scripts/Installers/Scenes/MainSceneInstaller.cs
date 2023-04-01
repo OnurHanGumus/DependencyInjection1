@@ -21,9 +21,9 @@ namespace Installers.Scenes
         void BindComponents()
         {
 
-            Container.Bind<InputEvents>().AsSingle();
+            Container.Bind<InputSignals>().AsSingle();
             Container.Bind<PoolSignals>().AsSingle();
-            Container.Bind<PlayerEvents>().AsSingle();
+            Container.Bind<PlayerSignals>().AsSingle();
 
             Container.BindMemoryPool<BulletCollisionDetector, BulletCollisionDetector.Pool>().FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
             Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);

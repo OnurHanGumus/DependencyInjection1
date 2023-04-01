@@ -12,8 +12,8 @@ namespace Components.Players
 {
     public class PlayerShootManager : MonoBehaviour
     {
-        [Inject] private InputEvents MainSceneInputEvents { get; set; }
-        [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private InputSignals InputSignals { get; set; }
+        [Inject] private PlayerSignals PlayerSignals { get; set; }
         [Inject] private PoolSignals PoolSignals { get; set; }
 
         [SerializeField] Vector3 playerCurrentPos;
@@ -38,16 +38,16 @@ namespace Components.Players
         }
         private void RegisterEvents()
         {
-            PlayerEvents.onAttackedToEnemy += OnAttackedToEnemy;
-            PlayerEvents.onPlayerMove += OnPlayerMove;
-            PlayerEvents.onEnemyShooted += OnEnemyShooted;
+            PlayerSignals.onAttackedToEnemy += OnAttackedToEnemy;
+            PlayerSignals.onPlayerMove += OnPlayerMove;
+            PlayerSignals.onEnemyShooted += OnEnemyShooted;
         }
 
         private void UnRegisterEvents()
         {
-            PlayerEvents.onAttackedToEnemy -= OnAttackedToEnemy;
-            PlayerEvents.onPlayerMove -= OnPlayerMove;
-            PlayerEvents.onEnemyShooted -= OnEnemyShooted;
+            PlayerSignals.onAttackedToEnemy -= OnAttackedToEnemy;
+            PlayerSignals.onPlayerMove -= OnPlayerMove;
+            PlayerSignals.onEnemyShooted -= OnEnemyShooted;
         }
 
         private void OnAttackedToEnemy(Vector3 targetPos)

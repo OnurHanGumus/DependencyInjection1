@@ -13,8 +13,8 @@ namespace Components.Players
         [SerializeField] private Transform _myTransform;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private InputEvents MainSceneInputEvents { get; set; }
-        [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private InputSignals InputSignals { get; set; }
+        [Inject] private PlayerSignals PlayerSignals { get; set; }
 
         private RoutineHelper _onPosUpdate;
         [Inject] private PlayerSettings PlayerSettings { get; set; }
@@ -33,7 +33,7 @@ namespace Components.Players
         }
         private void OnPosUpdate()
         {
-            PlayerEvents.onPlayerMove?.Invoke(_myTransform.position);
+            PlayerSignals.onPlayerMove?.Invoke(_myTransform.position);
 
             if (_navMeshAgent.isStopped)
             {
@@ -48,11 +48,11 @@ namespace Components.Players
 
         private void RegisterEvents()
         {
-            MainSceneInputEvents.onInputUpdate += OnInputUpdate;
-            PlayerEvents.onAttackedToEnemy += OnAttackToEnemy;
+            InputSignals.onInputUpdate += OnInputUpdate;
+            PlayerSignals.onAttackedToEnemy += OnAttackToEnemy;
         }
 
-        private void OnInputUpdate(InputEvents.InputUpdate inputUpdate)
+        private void OnInputUpdate(InputSignals.InputUpdate inputUpdate)
         {
             if (_onPosUpdate.IsInvoking == false)
             {
@@ -75,8 +75,8 @@ namespace Components.Players
 
         private void UnRegisterEvents()
         {
-            MainSceneInputEvents.onInputUpdate -= OnInputUpdate;
-            PlayerEvents.onAttackedToEnemy -= OnAttackToEnemy;
+            InputSignals.onInputUpdate -= OnInputUpdate;
+            PlayerSignals.onAttackedToEnemy -= OnAttackToEnemy;
         }
         [Serializable]
         public class Settings

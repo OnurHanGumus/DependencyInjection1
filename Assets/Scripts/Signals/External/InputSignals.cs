@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Events.External
 {
-    public class InputEvents
+    public class InputSignals
     {
         public UnityAction onInputBegin;
         public UnityAction<InputUpdate> onInputUpdate;

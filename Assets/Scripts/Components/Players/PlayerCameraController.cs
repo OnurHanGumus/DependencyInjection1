@@ -10,7 +10,7 @@ namespace Components.Players
     {
         [SerializeField] private Transform _myTransform;
         
-        [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private PlayerSignals PlayerSignals { get; set; }
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
         private Settings _mySettings;
@@ -32,7 +32,7 @@ namespace Components.Players
 
         private void RegisterEvents()
         {
-            PlayerEvents.onPlayerMove += OnPlayerMove;
+            PlayerSignals.onPlayerMove += OnPlayerMove;
             //MainSceneEvents.GameLoaded += OnGameLoaded;
         }
 
@@ -47,7 +47,7 @@ namespace Components.Players
 
         private void UnRegisterEvents()
         {
-            PlayerEvents.onPlayerMove -= OnPlayerMove;
+            PlayerSignals.onPlayerMove -= OnPlayerMove;
         }
 
         [Serializable]

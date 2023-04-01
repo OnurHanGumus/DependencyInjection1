@@ -13,8 +13,8 @@ namespace Components.Players
         [SerializeField] private Transform _myTransform;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private InputEvents MainSceneInputEvents { get; set; }
-        [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private InputSignals InputSignals { get; set; }
+        [Inject] private PlayerSignals PlayerSignals { get; set; }
 
         private RoutineHelper _onPosUpdate;
         [Inject] private EnemySettings EnemySettings { get; set; }
@@ -35,12 +35,12 @@ namespace Components.Players
 
         private void RegisterEvents()
         {
-            PlayerEvents.onPlayerMove += OnPlayerMove;
+            PlayerSignals.onPlayerMove += OnPlayerMove;
         }
 
         private void UnRegisterEvents()
         {
-            PlayerEvents.onPlayerMove += OnPlayerMove;
+            PlayerSignals.onPlayerMove += OnPlayerMove;
             _navMeshAgent.speed = _mySettings.Speed;
         }
 
