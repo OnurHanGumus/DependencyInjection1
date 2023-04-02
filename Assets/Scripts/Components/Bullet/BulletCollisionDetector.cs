@@ -48,8 +48,13 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
 
     private void DespawnSignal()
     {
-        PoolSignals.onRemove(PoolEnums.Bullet, this);
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        PoolSignals.onRemove?.Invoke(PoolEnums.Bullet, this);
+        StopAllCoroutines();
     }
 
     [Serializable]

@@ -8,7 +8,7 @@ using Enums;
 public class PoolManager : MonoBehaviour
 {
     [Inject] private PoolHolder _poolHolder { get; set; }
-    [Inject] private PoolSignals poolSignals { get; set; }
+    [Inject] private PoolSignals PoolSignals { get; set; }
 
     #region Event Subscriptions
 
@@ -19,14 +19,14 @@ public class PoolManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        poolSignals.onGetObject += Spawn;
-        poolSignals.onRemove += Remove;
+        PoolSignals.onGetObject += Spawn;
+        PoolSignals.onRemove += Remove;
     }
 
     private void UnsubscribeEvents()
     {
-        poolSignals.onGetObject -= Spawn;
-        poolSignals.onRemove -= Remove;
+        PoolSignals.onGetObject -= Spawn;
+        PoolSignals.onRemove -= Remove;
     }
 
     public GameObject Spawn(PoolEnums poolEnum, Vector2 spawnPos)

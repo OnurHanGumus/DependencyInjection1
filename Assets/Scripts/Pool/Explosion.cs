@@ -6,11 +6,11 @@ using Events.External;
 using Enums;
 public class Explosion : MonoBehaviour, IPoolType
 {
-    [Inject] private PoolSignals poolSignals { get; set; }
+    [Inject] private PoolSignals PoolSignals { get; set; }
 
     private void OnDisable()
     {
-        poolSignals.onRemove(PoolEnums.Particle, this);
+        PoolSignals.onRemove(PoolEnums.Particle, this);
     }
     public class Pool : MemoryPool<Vector2, Explosion>, IPool
     {
