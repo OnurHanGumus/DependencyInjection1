@@ -51,27 +51,9 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
-    {
-        PoolSignals.onRemove?.Invoke(PoolEnums.Bullet, this);
-        StopAllCoroutines();
-    }
-
     [Serializable]
     public class Settings
     {
         [SerializeField] public float BulletLifeTime = 1f;
-    }
-
-    public class Pool : MemoryPool<Vector2, BulletCollisionDetector>, IPool
-    {
-        public void Despawn(IPoolType enemy)
-        {
-            base.Despawn((BulletCollisionDetector) enemy);
-        }
-        public new GameObject Spawn(Vector2 pos)
-        {
-            return base.Spawn(pos).gameObject;
-        }
     }
 }

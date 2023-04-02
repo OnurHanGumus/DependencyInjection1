@@ -19,6 +19,11 @@ public class Explosion : MonoBehaviour, IPoolType
             base.Despawn((Explosion) explosion);
         }
 
+        public void DisableAll()
+        {
+            base.GetInternal().gameObject.SetActive(false);
+        }
+
         public new GameObject Spawn(Vector2 pos)
         {
             return base.Spawn(pos).gameObject;

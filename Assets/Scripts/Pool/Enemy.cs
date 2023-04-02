@@ -20,6 +20,11 @@ public class Enemy : MonoBehaviour, IPoolType
             base.Despawn((Enemy) enemy);
         }
 
+        public void DisableAll()
+        {
+            //base.GetInternal().gameObject.SetActive(false);
+        }
+
         public new GameObject Spawn(Vector2 pos)
         {
             return base.Spawn(pos).gameObject;

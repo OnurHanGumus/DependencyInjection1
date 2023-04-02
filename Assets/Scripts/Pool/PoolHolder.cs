@@ -8,21 +8,22 @@ using Zenject;
 
 public class PoolHolder
 {
-    public Enemy.Pool EnemyPool;
-    public Explosion.Pool ExplosionPool;
-    public BulletCollisionDetector.Pool BulletPool;
-    [SerializeField] public Dictionary<PoolEnums, IPool> PoolDictionary;
+    public Dictionary<PoolEnums, IPool> PoolDictionary;
 
-    public PoolHolder(Enemy.Pool enemyPool, BulletCollisionDetector.Pool bulletPool, Explosion.Pool explosionPool)
+    private Enemy.Pool _enemyPool;
+    private Explosion.Pool _explosionPool;
+    private Bullet.Pool _bulletPool;
+
+    public PoolHolder(Enemy.Pool enemyPool, Bullet.Pool bulletPool, Explosion.Pool explosionPool)
     {
         PoolDictionary = new Dictionary<PoolEnums, IPool>();
-        EnemyPool = enemyPool;
-        BulletPool = bulletPool;
-        ExplosionPool = explosionPool;
+        _enemyPool = enemyPool;
+        _bulletPool = bulletPool;
+        _explosionPool = explosionPool;
 
-        InitializePool(PoolEnums.Enemy, EnemyPool);
-        InitializePool(PoolEnums.Bullet, BulletPool);
-        InitializePool(PoolEnums.Particle, ExplosionPool);
+        InitializePool(PoolEnums.Enemy, _enemyPool);
+        InitializePool(PoolEnums.Bullet, _bulletPool);
+        InitializePool(PoolEnums.Particle, _explosionPool);
     }
     private void InitializePool(PoolEnums type, IPool pool, int size = 0)
     {
@@ -43,11 +44,16 @@ public class PoolHolder
     // Pool içerisindeki obje sayýsýný döner.
     public int GetNum()
     {
-        return EnemyPool.NumTotal;
+        return _enemyPool.NumTotal;
     }
     public void Reset()
     {
-        EnemyPool.Clear();
+        int indeks = 0;
+        for (int i = 0; i < PoolDictionary.Keys.Count; i++)
+        {
+            PoolDictionary[(PoolEnums) indeks].DisableAll();
+            ++indeks;
+        }
     }
 
 

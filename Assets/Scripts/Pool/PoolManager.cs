@@ -7,8 +7,9 @@ using Enums;
 
 public class PoolManager : MonoBehaviour
 {
-    [Inject] private PoolHolder _poolHolder { get; set; }
+    [Inject] private PoolHolder PoolHolder { get; set; }
     [Inject] private PoolSignals PoolSignals { get; set; }
+    [Inject] private CoreGameSignals CoreGameSignals { get; set; }
 
     #region Event Subscriptions
 
@@ -21,22 +22,16 @@ public class PoolManager : MonoBehaviour
     {
         PoolSignals.onGetObject += Spawn;
         PoolSignals.onRemove += Remove;
+
+        CoreGameSignals.onRestartLevel += OnRestartLevel;
     }
 
     private void UnsubscribeEvents()
     {
         PoolSignals.onGetObject -= Spawn;
         PoolSignals.onRemove -= Remove;
-    }
 
-    public GameObject Spawn(PoolEnums poolEnum, Vector2 spawnPos)
-    {
-        return _poolHolder.PoolDictionary[poolEnum].Spawn(spawnPos);
-    }
-
-    public void Remove(PoolEnums poolEnum, IPoolType type)
-    {
-        _poolHolder.PoolDictionary[poolEnum].Despawn(type);
+        CoreGameSignals.onRestartLevel -= OnRestartLevel;
     }
 
     private void OnDisable()
@@ -46,4 +41,18 @@ public class PoolManager : MonoBehaviour
 
     #endregion
 
+    private GameObject Spawn(PoolEnums poolEnum, Vector2 spawnPos)
+    {
+        return PoolHolder.PoolDictionary[poolEnum].Spawn(spawnPos);
+    }
+
+    private void Remove(PoolEnums poolEnum, IPoolType type)
+    {
+        PoolHolder.PoolDictionary[poolEnum].Despawn(type);
+    }
+
+    private void OnRestartLevel()
+    {
+        PoolHolder.Reset();
+    }
 }
