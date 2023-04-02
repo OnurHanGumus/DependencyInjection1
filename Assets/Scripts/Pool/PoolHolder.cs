@@ -48,11 +48,10 @@ public class PoolHolder
     }
     public void Reset()
     {
-        int indeks = 0;
         for (int i = 0; i < PoolDictionary.Keys.Count; i++)
         {
-            PoolDictionary[(PoolEnums) indeks].DisableAll();
-            ++indeks;
+            //PoolDictionary[(PoolEnums) i].DisableAll();
+            PoolDictionary[PoolEnums.Enemy].GetObject();
         }
     }
 

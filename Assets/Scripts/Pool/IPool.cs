@@ -7,5 +7,5 @@ public interface IPool
 {
     GameObject Spawn(Vector2 pos);
     void Despawn(IPoolType enemy);
-    void DisableAll();
+    void GetObject();
 }

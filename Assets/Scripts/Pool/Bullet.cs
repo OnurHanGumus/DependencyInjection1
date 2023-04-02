@@ -7,10 +7,37 @@ using Enums;
 public class Bullet : MonoBehaviour, IPoolType
 {
     [Inject] private PoolSignals PoolSignals { get; set; }
+    [Inject] private CoreGameSignals CoreGameSignals { get; set; }
+    #region Event Subscriptions
+
+    private void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        CoreGameSignals.onRestartLevel += OnRestartLevel;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        CoreGameSignals.onRestartLevel -= OnRestartLevel;
+    }
+
     private void OnDisable()
     {
-        PoolSignals.onRemove(PoolEnums.Bullet, this);
+        UnsubscribeEvents();
+        PoolSignals.onRemove?.Invoke(PoolEnums.Bullet, this);
+
     }
+    #endregion
+
+    private void OnRestartLevel()
+    {
+        gameObject.SetActive(false);
+    }
+
     public class Pool : MemoryPool<Vector2, Bullet>, IPool
     {
         public void Despawn(IPoolType bullet)
@@ -22,12 +49,13 @@ public class Bullet : MonoBehaviour, IPoolType
         {
             return base.Spawn(pos).gameObject;
         }
-        public void DisableAll()
+        public void GetObject()
         {
             for (int i = 0; i < base.NumActive; i++)
             {
                 base.GetInternal().gameObject.SetActive(false);
             }
+
         }
     }
 }

@@ -41,9 +41,16 @@ public class PoolManager : MonoBehaviour
 
     #endregion
 
+    private void Start()
+    {
+        StartCoroutine(ResetPool());
+
+    }
+
     private GameObject Spawn(PoolEnums poolEnum, Vector2 spawnPos)
     {
         return PoolHolder.PoolDictionary[poolEnum].Spawn(spawnPos);
+
     }
 
     private void Remove(PoolEnums poolEnum, IPoolType type)
@@ -54,5 +61,13 @@ public class PoolManager : MonoBehaviour
     private void OnRestartLevel()
     {
         PoolHolder.Reset();
+    }
+
+    private IEnumerator ResetPool()
+    {
+        yield return new WaitForSeconds(5f);
+        Debug.Log("Resetted.");
+
+        CoreGameSignals.onRestartLevel?.Invoke();
     }
 }
