@@ -33,7 +33,7 @@ public class BulletCollisionDetector : MonoBehaviour, IPoolType
             PlayerSignals.onEnemyShooted?.Invoke(attackable);
             DespawnSignal();
             attackable.OnWeaponTriggerEnter();
-            GameObject particle = PoolSignals.onGetObject(PoolEnums.Particle, transform.position);
+            GameObject particle = PoolSignals.onGetObject(PoolEnums.Explosion, transform.position);
             particle.SetActive(false);
             particle.transform.position = transform.position;
             particle.SetActive(true);

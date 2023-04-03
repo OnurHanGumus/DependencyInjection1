@@ -30,8 +30,6 @@ public class EnemySpawnManager : MonoBehaviour
         {
             yield return new WaitForSeconds(3f);
             GameObject enemy = PoolSignals.onGetObject(PoolEnums.Enemy, transform.position);
-            enemy.SetActive(false);
-            enemy.transform.position = transform.position;
             enemy.SetActive(true);
         }
 

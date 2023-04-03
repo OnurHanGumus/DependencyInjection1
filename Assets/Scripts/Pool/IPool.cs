@@ -5,7 +5,5 @@ using Zenject;
 
 public interface IPool
 {
-    GameObject Spawn(Vector2 pos);
-    void Despawn(IPoolType enemy);
-    void GetObject();
+    GameObject OnCreate();
 }

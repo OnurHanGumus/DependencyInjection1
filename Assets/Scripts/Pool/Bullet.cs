@@ -8,6 +8,12 @@ public class Bullet : MonoBehaviour, IPoolType
 {
     [Inject] private PoolSignals PoolSignals { get; set; }
     [Inject] private CoreGameSignals CoreGameSignals { get; set; }
+    [Inject]
+    public void Construct(PoolSignals poolSignals, CoreGameSignals coreGameSignals)
+    {
+        PoolSignals = poolSignals;
+        CoreGameSignals = coreGameSignals;
+    }
     #region Event Subscriptions
 
     private void OnEnable()
@@ -28,8 +34,6 @@ public class Bullet : MonoBehaviour, IPoolType
     private void OnDisable()
     {
         UnsubscribeEvents();
-        PoolSignals.onRemove?.Invoke(PoolEnums.Bullet, this);
-
     }
     #endregion
 
@@ -37,25 +41,33 @@ public class Bullet : MonoBehaviour, IPoolType
     {
         gameObject.SetActive(false);
     }
-
-    public class Pool : MemoryPool<Vector2, Bullet>, IPool
+    public class Factory : PlaceholderFactory<Bullet>, IPool
     {
-        public void Despawn(IPoolType bullet)
+        GameObject IPool.OnCreate()
         {
-            base.Despawn((Bullet) bullet);
-        }
-
-        public new GameObject Spawn(Vector2 pos)
-        {
-            return base.Spawn(pos).gameObject;
-        }
-        public void GetObject()
-        {
-            for (int i = 0; i < base.NumActive; i++)
-            {
-                base.GetInternal().gameObject.SetActive(false);
-            }
-
+            return base.Create().gameObject;
         }
     }
+
+
+    //public class Pool : MemoryPool<Vector2, Bullet>, IPool
+    //{
+    //    public void Despawn(IPoolType bullet)
+    //    {
+    //        base.Despawn((Bullet) bullet);
+    //    }
+
+    //    public new GameObject Spawn(Vector2 pos)
+    //    {
+    //        return base.Spawn(pos).gameObject;
+    //    }
+    //    public void GetObject()
+    //    {
+    //        for (int i = 0; i < base.NumActive; i++)
+    //        {
+    //            base.GetInternal().gameObject.SetActive(false);
+    //        }
+
+    //    }
+    //}
 }

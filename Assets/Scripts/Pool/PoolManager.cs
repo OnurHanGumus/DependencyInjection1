@@ -7,12 +7,43 @@ using Enums;
 
 public class PoolManager : MonoBehaviour
 {
-    [Inject] private PoolHolder PoolHolder { get; set; }
     [Inject] private PoolSignals PoolSignals { get; set; }
     [Inject] private CoreGameSignals CoreGameSignals { get; set; }
 
-    #region Event Subscriptions
+    [Inject] private Bullet.Factory bulletFactory;
+    [Inject] private Enemy.Factory enemyFactory;
+    [Inject] private Explosion.Factory explosionFactory;
+    #region Serialized Variables
 
+    [SerializeField] private Dictionary<PoolEnums, List<GameObject>> poolDictionary;
+    [SerializeField] private List<IPool> factoryList;
+
+
+    [SerializeField] private int amountBullet = 20;
+    [SerializeField] private int amountEnemy = 20;
+    [SerializeField] private int amountExplosion = 20;
+
+
+
+    #endregion
+    #region Event Subscriptions
+    private void Awake()
+    {
+        Init();
+    }
+    private void Init()
+    {
+        poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
+        factoryList = new List<IPool>();
+
+        factoryList.Add(bulletFactory);
+        factoryList.Add(enemyFactory);
+        factoryList.Add(explosionFactory);
+
+        InitializePool(PoolEnums.Bullet, amountBullet);
+        InitializePool(PoolEnums.Enemy, amountEnemy);
+        InitializePool(PoolEnums.Explosion, amountExplosion);
+    }
     private void OnEnable()
     {
         SubscribeEvents();
@@ -20,18 +51,14 @@ public class PoolManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        PoolSignals.onGetObject += Spawn;
-        PoolSignals.onRemove += Remove;
-
-        CoreGameSignals.onRestartLevel += OnRestartLevel;
+        PoolSignals.onGetObject += OnGetObject;
+        CoreGameSignals.onRestartLevel += OnReset;
     }
 
     private void UnsubscribeEvents()
     {
-        PoolSignals.onGetObject -= Spawn;
-        PoolSignals.onRemove -= Remove;
-
-        CoreGameSignals.onRestartLevel -= OnRestartLevel;
+        PoolSignals.onGetObject -= OnGetObject;
+        CoreGameSignals.onRestartLevel -= OnReset;
     }
 
     private void OnDisable()
@@ -41,33 +68,56 @@ public class PoolManager : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    private void InitializePool(PoolEnums type, int size)
     {
-        StartCoroutine(ResetPool());
+        List<GameObject> tempList = new List<GameObject>();
+        GameObject tmp;
+
+        for (int i = 0; i < size; i++)
+        {
+            tmp = factoryList[(int) type].OnCreate();
+            tmp.SetActive(false);
+            tmp.transform.parent = transform;
+            tempList.Add(tmp);
+        }
+        poolDictionary.Add(type, tempList);
+    }
+
+    public GameObject OnGetObject(PoolEnums type, Vector3 position)
+    {
+        for (int i = 0; i < poolDictionary[type].Count; i++)
+        {
+            if (!poolDictionary[type][i].activeInHierarchy)
+            {
+                poolDictionary[type][i].transform.position = position;
+                poolDictionary[type][i].gameObject.SetActive(true);
+
+                return poolDictionary[type][i];
+            }
+        }
+        return null;
+    }
+
+    public Transform OnGetPoolManagerObj()
+    {
+        return transform;
+    }
+
+
+    private void OnReset()
+    {
+        //reset
+        ResetPool(PoolEnums.Bullet);
+        ResetPool(PoolEnums.Enemy);
+        ResetPool(PoolEnums.Explosion);
 
     }
 
-    private GameObject Spawn(PoolEnums poolEnum, Vector2 spawnPos)
+    private void ResetPool(PoolEnums type)
     {
-        return PoolHolder.PoolDictionary[poolEnum].Spawn(spawnPos);
-
-    }
-
-    private void Remove(PoolEnums poolEnum, IPoolType type)
-    {
-        PoolHolder.PoolDictionary[poolEnum].Despawn(type);
-    }
-
-    private void OnRestartLevel()
-    {
-        PoolHolder.Reset();
-    }
-
-    private IEnumerator ResetPool()
-    {
-        yield return new WaitForSeconds(5f);
-        Debug.Log("Resetted.");
-
-        CoreGameSignals.onRestartLevel?.Invoke();
+        foreach (var i in poolDictionary[type])
+        {
+            i.SetActive(false);
+        }
     }
 }

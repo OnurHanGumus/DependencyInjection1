@@ -573,6 +573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28bd954e9dd2444e87ab33e308802ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amountBullet: 20
+  amountEnemy: 20
+  amountExplosion: 20
 --- !u!4 &1597252033
 Transform:
   m_ObjectHideFlags: 0
@@ -905,9 +908,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98577280af310614c8519b520b4d3859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 5272055142477836822, guid: 20fd5c47de99b164bb3689d203a293d4, type: 3}
-  enemy: {fileID: 1815744965720100213, guid: 7fe8037b97f51f34384f5aae42a79af6, type: 3}
-  explosionParticle: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
+  bulletPrefab: {fileID: 5272055142477836822, guid: 20fd5c47de99b164bb3689d203a293d4, type: 3}
+  enemyPrefab: {fileID: 1815744965720100213, guid: 7fe8037b97f51f34384f5aae42a79af6, type: 3}
+  explosionPrefab: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
 --- !u!1 &2127880564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,7 +1064,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 3.59e-43}
+  m_BoundingSphereOverride: {x: 6e-44, y: 204069.19, z: 1.2972282e+10, w: 12.520354}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

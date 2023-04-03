@@ -7,9 +7,9 @@ namespace Installers.Scenes
 {
     public class MainSceneInstaller : MonoInstaller<MainSceneInstaller>
     {
-        [SerializeField] private GameObject bullet;
-        [SerializeField] private GameObject enemy;
-        [SerializeField] private GameObject explosionParticle;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private GameObject explosionPrefab;
         private BulletSettings _bulletSettings;
 
         public override void InstallBindings()
@@ -26,11 +26,13 @@ namespace Installers.Scenes
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerSignals>().AsSingle();
 
-            Container.BindMemoryPool<Bullet, Bullet.Pool>().WithInitialSize(5).FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
-            Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
-            Container.BindMemoryPool<Explosion, Explosion.Pool>().FromComponentInNewPrefab(explosionParticle).UnderTransformGroup("Particles");
-
-            Container.Bind<PoolHolder>().AsSingle();
+            //Container.BindMemoryPool<Bullet, Bullet.Pool>().WithInitialSize(5).FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
+            //Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
+            //Container.BindMemoryPool<Explosion, Explosion.Pool>().FromComponentInNewPrefab(explosionParticle).UnderTransformGroup("Particles");
+            Container.BindFactory<Bullet, Bullet.Factory>().FromComponentInNewPrefab(bulletPrefab);
+            Container.BindFactory<Enemy, Enemy.Factory>().FromComponentInNewPrefab(enemyPrefab);
+            Container.BindFactory<Explosion, Explosion.Factory>().FromComponentInNewPrefab(explosionPrefab);
+            //Container.Bind<PoolHolder>().AsSingle();
         }
 
         private void BindSettings()

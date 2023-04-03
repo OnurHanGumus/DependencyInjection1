@@ -8,6 +8,13 @@ public class Explosion : MonoBehaviour, IPoolType
 {
     [Inject] private PoolSignals PoolSignals { get; set; }
     [Inject] private CoreGameSignals CoreGameSignals { get; set; }
+    [Inject]
+    public void Construct(PoolSignals poolSignals, CoreGameSignals coreGameSignals)
+    {
+        PoolSignals = poolSignals;
+        CoreGameSignals = coreGameSignals;
+    }
+
     #region Event Subscriptions
 
     private void OnEnable()
@@ -28,8 +35,6 @@ public class Explosion : MonoBehaviour, IPoolType
     private void OnDisable()
     {
         UnsubscribeEvents();
-        PoolSignals.onRemove?.Invoke(PoolEnums.Particle, this);
-
     }
     #endregion
 
@@ -37,24 +42,32 @@ public class Explosion : MonoBehaviour, IPoolType
     {
         gameObject.SetActive(false);
     }
-    public class Pool : MemoryPool<Vector2, Explosion>, IPool
+    public class Factory : PlaceholderFactory<Explosion>, IPool 
     {
-        public void Despawn(IPoolType explosion)
+        GameObject IPool.OnCreate()
         {
-            base.Despawn((Explosion) explosion);
-        }
-
-        public void GetObject()
-        {
-            for (int i = 0; i < base.NumActive; i++)
-            {
-                base.GetInternal().gameObject.SetActive(false);
-            }
-        }
-
-        public new GameObject Spawn(Vector2 pos)
-        {
-            return base.Spawn(pos).gameObject;
+            return base.Create().gameObject;
         }
     }
+
+    //public class Pool : MemoryPool<Vector2, Explosion>, IPool
+    //{
+    //    public void Despawn(IPoolType explosion)
+    //    {
+    //        base.Despawn((Explosion) explosion);
+    //    }
+
+    //    public void GetObject()
+    //    {
+    //        for (int i = 0; i < base.NumActive; i++)
+    //        {
+    //            base.GetInternal().gameObject.SetActive(false);
+    //        }
+    //    }
+
+    //    public new GameObject Spawn(Vector2 pos)
+    //    {
+    //        return base.Spawn(pos).gameObject;
+    //    }
+    //}
 }
