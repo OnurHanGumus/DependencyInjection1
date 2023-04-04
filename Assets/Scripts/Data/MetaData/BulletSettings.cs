@@ -6,6 +6,6 @@ namespace Data.MetaData
     [CreateAssetMenu(fileName = "BulletSettings", menuName = "ZenjectExample/BulletSettings", order = 0)]
     public class BulletSettings : ScriptableObject
     {
-        [SerializeField] public BulletCollisionDetector.Settings BulletCollisionDetectorSettings;
+        [SerializeField] public BulletPhysicsController.Settings BulletCollisionDetectorSettings;
     }
 }

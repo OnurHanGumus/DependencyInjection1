@@ -29,9 +29,9 @@ namespace Installers.Scenes
             //Container.BindMemoryPool<Bullet, Bullet.Pool>().WithInitialSize(5).FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
             //Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
             //Container.BindMemoryPool<Explosion, Explosion.Pool>().FromComponentInNewPrefab(explosionParticle).UnderTransformGroup("Particles");
-            Container.BindFactory<Bullet, Bullet.Factory>().FromComponentInNewPrefab(bulletPrefab);
-            Container.BindFactory<Enemy, Enemy.Factory>().FromComponentInNewPrefab(enemyPrefab);
-            Container.BindFactory<Explosion, Explosion.Factory>().FromComponentInNewPrefab(explosionPrefab);
+            Container.BindFactory<BulletManager, BulletManager.Factory>().FromComponentInNewPrefab(bulletPrefab);
+            Container.BindFactory<EnemyManager, EnemyManager.Factory>().FromComponentInNewPrefab(enemyPrefab);
+            Container.BindFactory<ExplosionManager, ExplosionManager.Factory>().FromComponentInNewPrefab(explosionPrefab);
             //Container.Bind<PoolHolder>().AsSingle();
         }
 

@@ -10,9 +10,9 @@ public class PoolManager : MonoBehaviour
     [Inject] private PoolSignals PoolSignals { get; set; }
     [Inject] private CoreGameSignals CoreGameSignals { get; set; }
 
-    [Inject] private Bullet.Factory bulletFactory;
-    [Inject] private Enemy.Factory enemyFactory;
-    [Inject] private Explosion.Factory explosionFactory;
+    [Inject] private BulletManager.Factory bulletFactory;
+    [Inject] private EnemyManager.Factory enemyFactory;
+    [Inject] private ExplosionManager.Factory explosionFactory;
     #region Serialized Variables
 
     [SerializeField] private Dictionary<PoolEnums, List<GameObject>> poolDictionary;
