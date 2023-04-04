@@ -4,7 +4,7 @@ using Events.External;
 using UnityEngine;
 using Zenject;
 
-namespace Components.Players
+namespace Controllers
 {
     public class PlayerCameraController : MonoBehaviour
     {

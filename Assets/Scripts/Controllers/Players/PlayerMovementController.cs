@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
-namespace Components.Players
+namespace Controllers
 {
     public class PlayerMovementController : MonoBehaviour
     {
@@ -15,10 +15,10 @@ namespace Components.Players
 
         [Inject] private InputSignals InputSignals { get; set; }
         [Inject] private PlayerSignals PlayerSignals { get; set; }
-
-        private RoutineHelper _onPosUpdate;
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
+        private RoutineHelper _onPosUpdate;
+        private bool _isStarted = false;
         private Settings _mySettings;
         private void OnEnable()
         {
@@ -54,6 +54,10 @@ namespace Components.Players
 
         private void OnInputUpdate(InputSignals.InputUpdate inputUpdate)
         {
+            if (!_isStarted)
+            {
+                return;
+            }
             if (_onPosUpdate.IsInvoking == false)
             {
                 _navMeshAgent.isStopped = false;
@@ -67,17 +71,26 @@ namespace Components.Players
             _navMeshAgent.speed = _mySettings.Speed;
         }
 
+        private void UnRegisterEvents()
+        {
+            InputSignals.onInputUpdate -= OnInputUpdate;
+            PlayerSignals.onAttackedToEnemy -= OnAttackToEnemy;
+        }
+
+        public void OnPlay()
+        {
+            _isStarted = true;
+        }
+        public void OnRestartLevel()
+        {
+            _isStarted = false;
+        }
         private void OnAttackToEnemy(Vector3 targetPos)
         {
             _navMeshAgent.isStopped = true;
             transform.LookAt(targetPos);
         }
 
-        private void UnRegisterEvents()
-        {
-            InputSignals.onInputUpdate -= OnInputUpdate;
-            PlayerSignals.onAttackedToEnemy -= OnAttackToEnemy;
-        }
         [Serializable]
         public class Settings
         {

@@ -7,10 +7,11 @@ using Enums;
 using System;
 using Data.MetaData;
 using Components.Enemies;
+using Signals;
 
-namespace Components.Players
+namespace Controllers
 {
-    public class PlayerShootManager : MonoBehaviour
+    public class PlayerShootController : MonoBehaviour
     {
         [Inject] private InputSignals InputSignals { get; set; }
         [Inject] private PlayerSignals PlayerSignals { get; set; }

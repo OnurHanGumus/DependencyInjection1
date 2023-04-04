@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
 using Enums;
-namespace Components.Enemies {
+using Signals;
+using Components.Enemies;
+
+namespace Controllers {
     public class EnemyPhysicsController : MonoBehaviour, IAttackable
     {
         private int _enemyHits = 2;

@@ -7,6 +7,7 @@ using Events.External;
 using UnityEngine;
 using Zenject;
 using Enums;
+using Signals;
 
 public class BulletPhysicsController : MonoBehaviour, IPoolType
 {
