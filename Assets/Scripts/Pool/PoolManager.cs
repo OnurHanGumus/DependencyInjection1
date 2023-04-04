@@ -95,14 +95,18 @@ public class PoolManager : MonoBehaviour
                 return poolDictionary[type][i];
             }
         }
-        return null;
+        return ExplandPool(type, position);
     }
 
-    public Transform OnGetPoolManagerObj()
+    private GameObject ExplandPool(PoolEnums type, Vector3 position)
     {
-        return transform;
-    }
+        GameObject expandObject = factoryList[(int)type].OnCreate();
+        expandObject.transform.position = position;
+        expandObject.transform.parent = transform;
+        poolDictionary[type].Add(expandObject);
 
+        return expandObject;
+    }
 
     private void OnReset()
     {
@@ -110,7 +114,6 @@ public class PoolManager : MonoBehaviour
         ResetPool(PoolEnums.Bullet);
         ResetPool(PoolEnums.Enemy);
         ResetPool(PoolEnums.Explosion);
-
     }
 
     private void ResetPool(PoolEnums type)

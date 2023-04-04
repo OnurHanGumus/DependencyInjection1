@@ -49,25 +49,4 @@ public class Explosion : MonoBehaviour, IPoolType
             return base.Create().gameObject;
         }
     }
-
-    //public class Pool : MemoryPool<Vector2, Explosion>, IPool
-    //{
-    //    public void Despawn(IPoolType explosion)
-    //    {
-    //        base.Despawn((Explosion) explosion);
-    //    }
-
-    //    public void GetObject()
-    //    {
-    //        for (int i = 0; i < base.NumActive; i++)
-    //        {
-    //            base.GetInternal().gameObject.SetActive(false);
-    //        }
-    //    }
-
-    //    public new GameObject Spawn(Vector2 pos)
-    //    {
-    //        return base.Spawn(pos).gameObject;
-    //    }
-    //}
 }

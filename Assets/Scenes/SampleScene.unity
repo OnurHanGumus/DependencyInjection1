@@ -573,9 +573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28bd954e9dd2444e87ab33e308802ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountBullet: 20
-  amountEnemy: 20
-  amountExplosion: 20
+  amountBullet: 0
+  amountEnemy: 0
+  amountExplosion: 0
 --- !u!4 &1597252033
 Transform:
   m_ObjectHideFlags: 0
