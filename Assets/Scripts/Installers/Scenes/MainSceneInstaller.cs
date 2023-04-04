@@ -25,8 +25,10 @@ namespace Installers.Scenes
             Container.Bind<InputSignals>().AsSingle();
             Container.Bind<LevelSignals>().AsSingle();
             Container.Bind<UISignals>().AsSingle();
+            Container.Bind<ScoreSignals>().AsSingle();
             Container.Bind<SaveSignals>().AsSingle();
             Container.Bind<PoolSignals>().AsSingle();
+            Container.Bind<AudioSignals>().AsSingle();
             Container.Bind<PlayerSignals>().AsSingle();
 
             //Container.BindMemoryPool<Bullet, Bullet.Pool>().WithInitialSize(5).FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
