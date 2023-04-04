@@ -4,6 +4,8 @@ using UnityEngine;
 using Zenject;
 using Events.External;
 using Enums;
+using Signals;
+
 public class BulletManager : MonoBehaviour
 {
     [Inject] private PoolSignals PoolSignals { get; set; }

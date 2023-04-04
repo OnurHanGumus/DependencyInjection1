@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 using Events.External;
 using Enums;
+using Signals;
 
 public class PoolManager : MonoBehaviour
 {

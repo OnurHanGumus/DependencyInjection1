@@ -2,6 +2,7 @@ using Events.External;
 using Zenject;
 using UnityEngine;
 using Data.MetaData;
+using Signals;
 
 namespace Installers.Scenes
 {
@@ -20,9 +21,11 @@ namespace Installers.Scenes
 
         void BindComponents()
         {
-
             Container.Bind<CoreGameSignals>().AsSingle();
             Container.Bind<InputSignals>().AsSingle();
+            Container.Bind<LevelSignals>().AsSingle();
+            Container.Bind<UISignals>().AsSingle();
+            Container.Bind<SaveSignals>().AsSingle();
             Container.Bind<PoolSignals>().AsSingle();
             Container.Bind<PlayerSignals>().AsSingle();
 

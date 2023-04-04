@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events.External
+namespace Signals
 {
     public class CoreGameSignals
     {
