@@ -31,6 +31,9 @@ namespace Installers.Scenes
             Container.Bind<AudioSignals>().AsSingle();
             Container.Bind<PlayerSignals>().AsSingle();
 
+
+            Container.BindInterfacesAndSelfTo<EnemySpawnManager>().AsSingle();
+
             //Container.BindMemoryPool<Bullet, Bullet.Pool>().WithInitialSize(5).FromComponentInNewPrefab(bullet).UnderTransformGroup("Bullets");
             //Container.BindMemoryPool<Enemy, Enemy.Pool>().FromComponentInNewPrefab(enemy);
             //Container.BindMemoryPool<Explosion, Explosion.Pool>().FromComponentInNewPrefab(explosionParticle).UnderTransformGroup("Particles");

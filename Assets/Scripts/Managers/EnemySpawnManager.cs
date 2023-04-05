@@ -5,39 +5,51 @@ using Events.External;
 using Enums;
 using Zenject;
 using Signals;
+using System.Threading.Tasks;
 
-public class EnemySpawnManager : MonoBehaviour
+public class EnemySpawnManager: ITickable
 {
     #region Self Variables
     #region Injected Variables
-    [Inject] private PoolSignals PoolSignals { get; set; }
-    [Inject] private CoreGameSignals CoreGameSignals { get; set; }
+
     #endregion
 
     #region Serialized Variables
-    [SerializeField] private List<Vector3> spawnPoints;
+    [SerializeField] private bool isStarted = false;
 
     #endregion
     #region Private Variables
+    private List<Vector3> _spawnPoints;
+    private PoolSignals PoolSignals { get; set; }
+    private CoreGameSignals CoreGameSignals { get; set; }
+    private float _enemySpawnDelay = 3, _timer;
+
     #endregion
     #endregion
 
-    private IEnumerator Spawn()
+    public EnemySpawnManager(PoolSignals poolSignals, CoreGameSignals coreGameSignals)
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(3f);
-            GameObject enemy = PoolSignals.onGetObject(PoolEnums.Enemy, spawnPoints[Random.Range(0, spawnPoints.Count)]);
-            enemy.SetActive(true);
-        }
-
+        PoolSignals = poolSignals;
+        CoreGameSignals = coreGameSignals;
+        Awake();
     }
 
+    private void Awake()
+    {
+        Init();
+        SubscribeEvents();
+    }
+
+    private void Init()
+    {
+        _spawnPoints = new List<Vector3>() { new Vector3(0,0,30), new Vector3(5, 0, 32), new Vector3(8, 0, 35) };
+    }
     #region Event Subscriptions
 
     private void OnEnable()
     {
         SubscribeEvents();
+
     }
 
     private void SubscribeEvents()
@@ -62,14 +74,32 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void OnPlay()
     {
-        StartCoroutine(Spawn());
+        isStarted = true;
     }
     private void OnLevelSuccessful()
     {
-        StopAllCoroutines();
+        isStarted = false;
     }
     private void OnLevelFailed()
     {
-        StopAllCoroutines();
+        isStarted = false;
+    }
+
+    public void Tick()
+    {
+        if (!isStarted)
+        {
+            return;
+        }
+       
+        _timer -= (Time.deltaTime);
+        if (_timer > 0)
+        {
+            return;
+        }
+        
+        GameObject enemy = PoolSignals.onGetObject(PoolEnums.Enemy, _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
+        enemy.SetActive(true);
+        _timer = _enemySpawnDelay;
     }
 }

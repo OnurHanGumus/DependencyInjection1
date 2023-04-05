@@ -447,8 +447,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 5592504798292777738}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &882234309
 GameObject:
@@ -607,7 +607,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1468213644}
-  - component: {fileID: 1468213645}
   m_Layer: 0
   m_Name: EnemySpawnManager
   m_TagString: Untagged
@@ -630,22 +629,6 @@ Transform:
   m_Father: {fileID: 1549805922}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1468213645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468213643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5c6e49711f1084286f5d78058888a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoints:
-  - {x: 0, y: 0, z: 32}
-  - {x: 5, y: 0, z: 30}
-  - {x: 10, y: 0, z: 28}
 --- !u!1 &1549805921
 GameObject:
   m_ObjectHideFlags: 0
@@ -9640,6 +9623,7 @@ Transform:
   m_Children:
   - {fileID: 5592504797340209008}
   - {fileID: 5592504797119731267}
+  - {fileID: 770324759}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
