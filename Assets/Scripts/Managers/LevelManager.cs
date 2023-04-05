@@ -71,7 +71,7 @@ namespace Managers
             CoreGameSignals.onLevelInitialize += OnInitializeLevel;
             CoreGameSignals.onClearActiveLevel += OnClearActiveLevel;
             CoreGameSignals.onNextLevel += OnNextLevel;
-            CoreGameSignals.onRestartLevel += OnRestartLevel;
+            CoreGameSignals.onRestart += OnRestartLevel;
             LevelSignals.onGetLevelId += OnGetLevelId;
             LevelSignals.onGetCurrentModdedLevel += OnGetModdedLevel;
 
@@ -84,7 +84,7 @@ namespace Managers
             CoreGameSignals.onLevelInitialize -= OnInitializeLevel;
             CoreGameSignals.onClearActiveLevel -= OnClearActiveLevel;
             CoreGameSignals.onNextLevel -= OnNextLevel;
-            CoreGameSignals.onRestartLevel -= OnRestartLevel;
+            CoreGameSignals.onRestart -= OnRestartLevel;
             LevelSignals.onGetLevelId -= OnGetLevelId;
             LevelSignals.onGetCurrentModdedLevel -= OnGetModdedLevel;
 
@@ -106,7 +106,7 @@ namespace Managers
         {
             _levelID++;
             CoreGameSignals.onClearActiveLevel?.Invoke();
-            CoreGameSignals.onRestartLevel?.Invoke();
+            CoreGameSignals.onRestart?.Invoke();
             SaveSignals.onSave(_levelID, SaveLoadStates.Level, SaveFiles.SaveFile);
 
         }

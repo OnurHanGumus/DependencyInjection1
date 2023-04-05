@@ -11,7 +11,7 @@ namespace Controllers {
     public class EnemyPhysicsController : MonoBehaviour, IAttackable
     {
         private int _enemyHits = 2;
-        [Inject] private PoolSignals PoolSignals { get; set;}
+        [Inject] private LevelSignals LevelSignals { get; set;}
         [Inject] private EnemyInternalEvents EnemyInternalEvents { get; set; }
         [SerializeField] private EnemyManager enemy;
 
@@ -31,7 +31,9 @@ namespace Controllers {
             if (_enemyHits == 0)
             {
                 EnemyInternalEvents.OnDeath?.Invoke(this);
+                LevelSignals.onEnemyDied.Invoke();
                 //PoolSignals.onRemove?.Invoke(PoolEnums.Enemy, enemy);
+
                 enemy.gameObject.SetActive(false);
             }
         }

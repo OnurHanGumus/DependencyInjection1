@@ -26,12 +26,12 @@ public class ExplosionManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        CoreGameSignals.onRestartLevel += OnRestartLevel;
+        CoreGameSignals.onRestart += OnRestartLevel;
     }
 
     private void UnsubscribeEvents()
     {
-        CoreGameSignals.onRestartLevel -= OnRestartLevel;
+        CoreGameSignals.onRestart -= OnRestartLevel;
     }
 
     private void OnDisable()

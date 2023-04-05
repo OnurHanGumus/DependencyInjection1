@@ -53,13 +53,13 @@ public class PoolManager : MonoBehaviour
     private void SubscribeEvents()
     {
         PoolSignals.onGetObject += OnGetObject;
-        CoreGameSignals.onRestartLevel += OnReset;
+        CoreGameSignals.onRestart += OnReset;
     }
 
     private void UnsubscribeEvents()
     {
         PoolSignals.onGetObject -= OnGetObject;
-        CoreGameSignals.onRestartLevel -= OnReset;
+        CoreGameSignals.onRestart -= OnReset;
     }
 
     private void OnDisable()

@@ -57,13 +57,13 @@ namespace Managers
         private void SubscribeEvents()
         {
             CoreGameSignals.onPlay += movementController.OnPlay;
-            CoreGameSignals.onRestartLevel += movementController.OnRestartLevel;
+            CoreGameSignals.onRestart += movementController.OnRestartLevel;
         }
 
         private void UnsubscribeEvents()
         {
             CoreGameSignals.onPlay -= movementController.OnPlay;
-            CoreGameSignals.onRestartLevel -= movementController.OnRestartLevel;
+            CoreGameSignals.onRestart -= movementController.OnRestartLevel;
         }
 
 

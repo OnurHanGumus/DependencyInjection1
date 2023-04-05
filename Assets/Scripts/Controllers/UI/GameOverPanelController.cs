@@ -76,13 +76,13 @@ public class GameOverPanelController : MonoBehaviour
 
     public void TryAgainBtn()
     {
-        CoreGameSignals.onRestartLevel?.Invoke();
+        CoreGameSignals.onRestart?.Invoke();
         UISignals.onClosePanel?.Invoke(UIPanels.GameOverPanel);
         CoreGameSignals.onPlay?.Invoke();
     }
     public void MenuBtn()
     {
-        CoreGameSignals.onRestartLevel?.Invoke();
+        CoreGameSignals.onRestart?.Invoke();
         UISignals.onClosePanel?.Invoke(UIPanels.GameOverPanel);
         UISignals.onOpenPanel?.Invoke(UIPanels.StartPanel);
     }

@@ -7,7 +7,7 @@ using Zenject;
 using Signals;
 using System.Threading.Tasks;
 
-public class EnemySpawnManager: ITickable
+public class EnemySpawnManager: ITickable, IInitializable
 {
     #region Self Variables
     #region Injected Variables
@@ -22,15 +22,25 @@ public class EnemySpawnManager: ITickable
     private List<Vector3> _spawnPoints;
     private PoolSignals PoolSignals { get; set; }
     private CoreGameSignals CoreGameSignals { get; set; }
+    private LevelSignals LevelSignals { get; set; }
     private float _enemySpawnDelay = 3, _timer;
-
+    private int _killedEnemiesCount = 0;
+    private int _killedEnemyAmountToPassLevel = 5;
     #endregion
     #endregion
 
-    public EnemySpawnManager(PoolSignals poolSignals, CoreGameSignals coreGameSignals)
+
+    public void Initialize()
     {
+        //Debug.Log("Init"); //Start
+    }
+    public EnemySpawnManager(PoolSignals poolSignals, CoreGameSignals coreGameSignals, LevelSignals levelSignals)
+    {
+        //Debug.Log("Const"); //Awake
+
         PoolSignals = poolSignals;
         CoreGameSignals = coreGameSignals;
+        LevelSignals = levelSignals;
         Awake();
     }
 
@@ -57,6 +67,9 @@ public class EnemySpawnManager: ITickable
         CoreGameSignals.onPlay += OnPlay;
         CoreGameSignals.onLevelSuccessful += OnLevelSuccessful;
         CoreGameSignals.onLevelFailed += OnLevelFailed;
+        CoreGameSignals.onRestart += OnRestart;
+
+        LevelSignals.onEnemyDied += OnEnemyDie;
     }
 
     private void UnsubscribeEvents()
@@ -64,6 +77,10 @@ public class EnemySpawnManager: ITickable
         CoreGameSignals.onPlay -= OnPlay;
         CoreGameSignals.onLevelSuccessful -= OnLevelSuccessful;
         CoreGameSignals.onLevelFailed -= OnLevelFailed;
+        CoreGameSignals.onRestart -= OnRestart;
+
+        LevelSignals.onEnemyDied -= OnEnemyDie;
+
     }
 
     private void OnDisable()
@@ -84,7 +101,19 @@ public class EnemySpawnManager: ITickable
     {
         isStarted = false;
     }
+    private void OnRestart()
+    {
+        _killedEnemiesCount = 0;
+    }
 
+    private void OnEnemyDie()
+    {
+        ++_killedEnemiesCount;
+        if (_killedEnemiesCount.Equals(_killedEnemyAmountToPassLevel))
+        {
+            CoreGameSignals.onLevelSuccessful?.Invoke();
+        }
+    }
     public void Tick()
     {
         if (!isStarted)
