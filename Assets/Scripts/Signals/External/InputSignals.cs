@@ -1,21 +1,18 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events.External
+namespace Signals
 {
     public class InputSignals
     {
-        public UnityAction onInputBegin;
-        public UnityAction<InputUpdate> onInputUpdate;
-        public UnityAction onInputEnd;
-        
-        public readonly struct InputUpdate
-        {
-            public readonly Vector3 TerrainPos;
-        
-            public InputUpdate(Vector3 terrainPos) {
-                TerrainPos = terrainPos;
-            }
-        }
+        public UnityAction onEnableInput = delegate { };
+        public UnityAction onDisableInput = delegate { };
+        public UnityAction onFirstTimeTouchTaken = delegate { };
+        public UnityAction onInputTaken = delegate { };
+        public UnityAction<Vector3> onClicking = delegate { };
+        public UnityAction onInputReleased = delegate { };
+        public UnityAction onClicked = delegate { };
+        public UnityAction<Vector2> onInputDragged = delegate { };
+
     }
 }

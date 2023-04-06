@@ -1,104 +1,187 @@
-﻿using Components.Enemies;
-using Events.External;
-using Extensions.Unity;
-using JetBrains.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using Data.UnityObject;
+using Data.ValueObject;
+using Signals;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Enums;
 using Zenject;
-using Sirenix.OdinInspector;
 
-namespace Components
+namespace Managers
 {
     public class InputManager : MonoBehaviour
     {
-        private RoutineHelper _inputRoutine;
-        private bool _isMoveable;
-        private Vector3 _lastInputPos;
-        private Vector3 _mousePosDelta;
-        private Camera _mainCam;
-
-        [UsedImplicitly]
+        #region Self Variables
+        #region Inject Variables
         [Inject] private InputSignals InputSignals { get; set; }
-        [Inject] private PlayerSignals PlayerSignals { get; set; }
+        [Inject] private CoreGameSignals CoreGameSignals { get; set; }
+        #endregion
+        #region Public Variables
+
+        [Header("Data")] public InputData Data;
+
+        #endregion
+
+        #region Serialized Variables
+
+        //[SerializeField] FloatingJoystick joystick; //SimpleJoystick paketi eklenmeli
+
+
+        #endregion
+
+        #region Private Variables
+
+
+        private float _currentVelocity; //ref type
+        private Vector2? _mousePosition; //ref type
+        private Vector3 _moveVector; //ref type
+        private bool _isPlayerDead = false;
         private Ray _ray;
+        private Transform _clickedTransform;
+
+        private bool _isBoomerangDisapeared = false;
+        private bool _isPlayerDrawing = false;
+        private bool _isBoomerangOnPlayer = true;
+        #endregion
+
+        #endregion
+
 
         private void Awake()
         {
-            _mainCam = Camera.main;
+            Data = GetInputData();
         }
-        private void Update()
-        {
-            InputUpdate();
-        }
+
+        private InputData GetInputData() => Resources.Load<CD_Input>("Data/CD_Input").Data;
+
+
+        #region Event Subscriptions
+
         private void OnEnable()
         {
-            //_inputRoutine.StartCoroutine();
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            InputSignals.onEnableInput += OnEnableInput;
+            InputSignals.onDisableInput += OnDisableInput;
+            CoreGameSignals.onPlay += OnPlay;
+            CoreGameSignals.onReset += OnReset;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            InputSignals.onEnableInput -= OnEnableInput;
+            InputSignals.onDisableInput -= OnDisableInput;
+            CoreGameSignals.onPlay -= OnPlay;
+            CoreGameSignals.onReset -= OnReset;
         }
 
         private void OnDisable()
         {
-            //_inputRoutine.StartCoroutine();
+            UnsubscribeEvents();
         }
 
-        private void InputUpdate()
+        #endregion
+
+        private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1);
-
-                _ray = Camera.main.ScreenPointToRay(mousePos);
+                _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
-                if (Physics.Raycast(_ray, out hit, 100f))
-                {
-                    if (hit.collider.TryGetComponent(out IAttackable attackable))
-                    {
-                        Vector3 targetPos = hit.transform.position;
-                        PlayerSignals.onAttackedToEnemy?.Invoke(targetPos);
-                    }
-                    else
-                    {
-                        _isMoveable = true;
-                        InputSignals.onInputBegin?.Invoke();
-                    }
-                }
-            }
-            else if (_isMoveable)
-            {
-                if (TryGetTerrainInputPos(Input.mousePosition, out Vector3 terrainInputPos))
-                {
-                    InputSignals.InputUpdate inputUpdate = new(terrainInputPos);
 
-                    InputSignals.onInputUpdate?.Invoke(inputUpdate);
+                if (Physics.Raycast(_ray, out hit))
+                {
+                    _clickedTransform = hit.transform;
                 }
+                InputSignals.onClicked?.Invoke(/*_clickedTransform*/);
             }
+            //if (Input.GetMouseButton(0))
+            //{
+            //    if (!_clickedTransform.gameObject.CompareTag("Car"))
+            //    {
+            //        return;
+            //    }
+            //    InputSignals.onInputDragged?.Invoke(new Vector2()
+            //    {
+            //        x = joystick.Horizontal,
+            //        y = joystick.Vertical,
+            //    });
+            //}
 
             if (Input.GetMouseButtonUp(0))
             {
-                _isMoveable = false;
-                InputSignals.onInputEnd?.Invoke();
-
+                InputSignals.onInputReleased?.Invoke();
             }
-        }
 
-        private bool TryGetTerrainInputPos(Vector3 currMousePos, out Vector3 terrainInputPos)
+        }
+        private bool IsPointerOverUIElement()
         {
-            Ray inputRay = _mainCam.ScreenPointToRay(currMousePos);
-
-            Debug.DrawRay(inputRay.origin, inputRay.direction);
-
-            bool didInputRayHit = Physics.Raycast(inputRay, out RaycastHit inputRayHit);
-
-            if (didInputRayHit)
-            {
-                if (inputRayHit.collider.gameObject.TryGetComponent(out Terrain _))
-                {
-                    terrainInputPos = inputRayHit.point;
-                    return true;
-                }
-            }
-
-            terrainInputPos = new Vector3();
-            return false;
+            var eventData = new PointerEventData(EventSystem.current);
+            eventData.position = Input.mousePosition;
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+            return results.Count > 0;
+            //return EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0);
         }
+        private void OnEnableInput()
+        {
+
+        }
+
+        private void OnDisableInput()
+        {
+
+        }
+
+        private void OnPlay()
+        {
+
+        }
+
+        private void OnBoomerangDisapeared()
+        {
+            _isBoomerangDisapeared = true;
+        }
+
+        private void OnBoomerangRebuilded()
+        {
+            _isBoomerangDisapeared = false;
+        }
+
+        private void OnBoomerangReturned()
+        {
+            _clickedTransform = null;
+            _isBoomerangOnPlayer = true;
+        }
+        private void OnBoomerangThrowed()
+        {
+            _isBoomerangOnPlayer = false;
+        }
+
+        //private bool IsPointerOverUIElement() //Joystick'i do�ru konumland�r�rsan buna gerek kalmaz
+        //{
+        //    var eventData = new PointerEventData(EventSystem.current);
+        //    eventData.position = Input.mousePosition;
+        //    var results = new List<RaycastResult>();
+        //    EventSystem.current.RaycastAll(eventData, results);
+        //    return results.Count > 0;
+        //}
+
+        private void OnReset()
+        {
+            _isBoomerangOnPlayer = true;
+            _clickedTransform = null;
+        }
+
+        private void OnChangePlayerLivingState()
+        {
+            _isPlayerDead = !_isPlayerDead;
+        }
+
     }
 }

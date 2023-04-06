@@ -13,7 +13,7 @@ namespace Controllers
 {
     public class PlayerShootController : MonoBehaviour
     {
-        [Inject] private InputSignals InputSignals { get; set; }
+        [Inject] private InputSignalsPoyrazHoca InputSignals { get; set; }
         [Inject] private PlayerSignals PlayerSignals { get; set; }
         [Inject] private PoolSignals PoolSignals { get; set; }
 

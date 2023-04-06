@@ -6,11 +6,15 @@ using Enums;
 using Zenject;
 using Signals;
 using System.Threading.Tasks;
+using System;
+using Random = UnityEngine.Random;
+using Data.MetaData;
 
 public class EnemySpawnManager: ITickable, IInitializable
 {
     #region Self Variables
     #region Injected Variables
+    [Inject] private EnemySpawnSettings EnemySpawnSettings { get; set; }
 
     #endregion
 
@@ -23,21 +27,18 @@ public class EnemySpawnManager: ITickable, IInitializable
     private PoolSignals PoolSignals { get; set; }
     private CoreGameSignals CoreGameSignals { get; set; }
     private LevelSignals LevelSignals { get; set; }
+    private int _levelId = 0;
     private float _enemySpawnDelay = 3, _timer;
     private int _killedEnemiesCount = 0;
     private int _killedEnemyAmountToPassLevel = 5;
+    private Settings _mySettings;
+
     #endregion
     #endregion
 
-
-    public void Initialize()
-    {
-        //Debug.Log("Init"); //Start
-    }
     public EnemySpawnManager(PoolSignals poolSignals, CoreGameSignals coreGameSignals, LevelSignals levelSignals)
     {
         //Debug.Log("Const"); //Awake
-
         PoolSignals = poolSignals;
         CoreGameSignals = coreGameSignals;
         LevelSignals = levelSignals;
@@ -53,6 +54,13 @@ public class EnemySpawnManager: ITickable, IInitializable
     private void Init()
     {
         _spawnPoints = new List<Vector3>() { new Vector3(0,0,30), new Vector3(5, 0, 32), new Vector3(8, 0, 35) };
+    }
+
+    public void Initialize()
+    {
+        //Start
+        _mySettings = EnemySpawnSettings.EnemyManagerSpawnSettings;
+
     }
     #region Event Subscriptions
 
@@ -92,6 +100,8 @@ public class EnemySpawnManager: ITickable, IInitializable
     private void OnPlay()
     {
         isStarted = true;
+        _levelId = LevelSignals.onGetLevelId();
+        _killedEnemyAmountToPassLevel = _mySettings._killedEnemyAmountToPassLevelList[_levelId];
     }
     private void OnLevelSuccessful()
     {
@@ -130,5 +140,10 @@ public class EnemySpawnManager: ITickable, IInitializable
         GameObject enemy = PoolSignals.onGetObject(PoolEnums.Enemy, _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
         enemy.SetActive(true);
         _timer = _enemySpawnDelay;
+    }
+    [Serializable]
+    public class Settings
+    {
+        public List<int> _killedEnemyAmountToPassLevelList;
     }
 }

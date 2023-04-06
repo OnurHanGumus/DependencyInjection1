@@ -13,7 +13,7 @@ namespace Controllers
         [SerializeField] private Transform _myTransform;
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private InputSignals InputSignals { get; set; }
+        [Inject] private InputSignalsPoyrazHoca InputSignalsPoyrazHoca { get; set; }
         [Inject] private PlayerSignals PlayerSignals { get; set; }
         [Inject] private PlayerSettings PlayerSettings { get; set; }
 
@@ -48,11 +48,11 @@ namespace Controllers
 
         private void RegisterEvents()
         {
-            InputSignals.onInputUpdate += OnInputUpdate;
+            InputSignalsPoyrazHoca.onInputUpdate += OnInputUpdate;
             PlayerSignals.onAttackedToEnemy += OnAttackToEnemy;
         }
 
-        private void OnInputUpdate(InputSignals.InputUpdate inputUpdate)
+        private void OnInputUpdate(InputSignalsPoyrazHoca.InputUpdate inputUpdate)
         {
             if (!_isStarted)
             {
@@ -73,7 +73,7 @@ namespace Controllers
 
         private void UnRegisterEvents()
         {
-            InputSignals.onInputUpdate -= OnInputUpdate;
+            InputSignalsPoyrazHoca.onInputUpdate -= OnInputUpdate;
             PlayerSignals.onAttackedToEnemy -= OnAttackToEnemy;
         }
 

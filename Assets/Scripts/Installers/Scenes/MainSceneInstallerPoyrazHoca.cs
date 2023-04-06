@@ -6,7 +6,7 @@ using Signals;
 
 namespace Installers.Scenes
 {
-    public class MainSceneInstaller : MonoInstaller<MainSceneInstaller>
+    public class MainSceneInstallerPoyrazHoca : MonoInstaller<MainSceneInstallerPoyrazHoca>
     {
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private GameObject enemyPrefab;
@@ -22,7 +22,7 @@ namespace Installers.Scenes
         void BindComponents()
         {
             Container.Bind<CoreGameSignals>().AsSingle();
-            Container.Bind<InputSignals>().AsSingle();
+            Container.Bind<InputSignalsPoyrazHoca>().AsSingle();
             Container.Bind<LevelSignals>().AsSingle();
             Container.Bind<UISignals>().AsSingle();
             Container.Bind<ScoreSignals>().AsSingle();

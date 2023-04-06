@@ -8,6 +8,5 @@ namespace Data.MetaData
     public class EnemySettings : ScriptableObject
     {
         [SerializeField] public EnemyMovementController.Settings EnemyMovementSettings;
-
     }
 }
